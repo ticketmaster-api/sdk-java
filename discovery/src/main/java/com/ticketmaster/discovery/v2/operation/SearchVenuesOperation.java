@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper=true)
 public class SearchVenuesOperation extends Operation {
 
     private SearchVenuesOperation(SearchVenuesOperationBuilder builder) {

@@ -1,10 +1,10 @@
 package com.ticketmaster.discovery.model;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import lombok.Getter;
 
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Response<T> {
 

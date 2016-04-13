@@ -2,10 +2,14 @@ package com.ticketmaster.discovery.v2;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
@@ -13,23 +17,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.HttpHeaders;
 import com.ticketmaster.Version;
-import com.ticketmaster.discovery.model.Link;
+import com.ticketmaster.discovery.model.Attraction;
+import com.ticketmaster.discovery.model.Attractions;
+import com.ticketmaster.discovery.model.Event;
+import com.ticketmaster.discovery.model.Events;
+import com.ticketmaster.discovery.model.Page.Link;
 import com.ticketmaster.discovery.model.PagedResponse;
 import com.ticketmaster.discovery.model.Response;
-import com.ticketmaster.discovery.v2.model.Attraction;
-import com.ticketmaster.discovery.v2.model.Attractions;
-import com.ticketmaster.discovery.v2.model.Event;
-import com.ticketmaster.discovery.v2.model.Events;
-import com.ticketmaster.discovery.v2.model.Venue;
-import com.ticketmaster.discovery.v2.model.Venues;
+import com.ticketmaster.discovery.model.Venue;
+import com.ticketmaster.discovery.model.Venues;
 import com.ticketmaster.discovery.v2.operation.ByIdOperation;
 import com.ticketmaster.discovery.v2.operation.SearchAttractionsOperation;
 import com.ticketmaster.discovery.v2.operation.SearchEventsOperation;
 import com.ticketmaster.discovery.v2.operation.SearchVenuesOperation;
-
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class DiscoveryApi {
 
@@ -128,28 +128,34 @@ public class DiscoveryApi {
     }
 
     public <T> PagedResponse<T> nextPage(PagedResponse<T> response) throws IOException {
-        Link next = response.getNextPageLink();
-        HttpUrl baseUrl = baseUrlBuilder().build();
-        HttpUrl nextUrl = baseUrl.resolve(next.getRelativeHref());
-        logger.debug("nextPage about to navigate to {}", nextUrl);
+        if (response == null || response.getNextPageLink() == null) {
+        	return null;
+        }
+        
+        return navigateTo(response.getNextPageLink(), response.getType());
+    }
+    
+    public <T> PagedResponse<T> previousPage(PagedResponse<T> response) throws IOException {
+        Link previous = response.getPreviousPageLink();
+        if (previous == null) {
+        	return null;
+        }
+        
+        return navigateTo(response.getPreviousPageLink(), response.getType());
+    }
+
+	private <T> PagedResponse<T> navigateTo(Link link, Class<T> type)
+			throws IOException {
+		HttpUrl baseUrl = baseUrlBuilder().build();
+        HttpUrl nextUrl = baseUrl.resolve(link.getRelativeHref());
+        logger.debug("About to navigate to {}", nextUrl);
         Request request = getRequest(nextUrl);
 
         okhttp3.Response nextResponse = client.newCall(request).execute();
 
-        return new PagedResponse<T>(nextResponse, mapper, response.getType());
-    }
+        return new PagedResponse<T>(nextResponse, mapper, type);
+	}
 
-    public <T> PagedResponse<T> previousPage(PagedResponse<T> response) throws IOException {
-        Link previous = response.getPreviousPageLink();
-        HttpUrl baseUrl = baseUrlBuilder().build();
-        HttpUrl previousUrl = baseUrl.resolve(previous.getRelativeHref());
-        logger.debug("previousPage about to navigate to {}", previousUrl);
-        Request request = getRequest(previousUrl);
-
-        okhttp3.Response nextResponse = client.newCall(request).execute();
-
-        return new PagedResponse<T>(nextResponse, mapper, response.getType());
-    }
 
     private Request getRequest(HttpUrl url) {
         HttpUrl.Builder urlBuilder = url.newBuilder().addQueryParameter("apikey", apiKey);

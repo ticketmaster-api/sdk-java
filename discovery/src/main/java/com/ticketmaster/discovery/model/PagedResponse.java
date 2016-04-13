@@ -1,13 +1,12 @@
 package com.ticketmaster.discovery.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.io.IOException;
+import com.ticketmaster.discovery.model.Page.Link;
+import com.ticketmaster.discovery.model.Page.PageInfo;
 
 public class PagedResponse<T> extends Response<T> {
 
@@ -56,41 +55,5 @@ public class PagedResponse<T> extends Response<T> {
         return page.getInfo();
     }
 
-    @Getter
-    @NoArgsConstructor
-    public static class Page<T> {
-
-        @JsonProperty("_embedded")
-        private T embedded;
-
-        @JsonProperty("_links")
-        private PageLinks links;
-
-        @JsonProperty("page")
-        private PageInfo info;
-
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class PageLinks {
-
-        private Link self;
-        private Link next;
-        @JsonProperty("prev")
-        private Link previous;
-    }
-
-    @Getter
-    @NoArgsConstructor
-    public static class PageInfo {
-
-        @JsonProperty("size")
-        private Integer pageSize;
-        private Integer totalElements;
-        private Integer totalPages;
-        @JsonProperty("number")
-        private Integer currentPage;
-    }
 }
 

@@ -1,13 +1,8 @@
 package com.ticketmaster.discovery.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter
@@ -23,13 +18,8 @@ public class Page<T> {
 	@JsonProperty("page")
 	private PageInfo info;
 
-	@ToString
 	@Getter
-	@Setter
-	@EqualsAndHashCode
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @NoArgsConstructor
 	public static class PageLinks {
 
 		private Link self;
@@ -38,13 +28,8 @@ public class Page<T> {
 		private Link previous;
 	}
 
-	@ToString
 	@Getter
-	@Setter
-	@EqualsAndHashCode
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @NoArgsConstructor
 	public static class PageInfo {
 
 		@JsonProperty("size")
@@ -55,13 +40,8 @@ public class Page<T> {
 		private Integer currentPage;
 	}
 	
-	@ToString
 	@Getter
-	@Setter
-	@EqualsAndHashCode
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @NoArgsConstructor
 	public static class Link {
 
 	    private static final String TEMPLATE_PATTERN = "\\{(.*?)\\}";

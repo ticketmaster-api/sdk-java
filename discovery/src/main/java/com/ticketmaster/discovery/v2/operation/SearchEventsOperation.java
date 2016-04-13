@@ -2,6 +2,7 @@ package com.ticketmaster.discovery.v2.operation;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import static java.util.Optional.ofNullable;
 
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper=true)
 public class SearchEventsOperation extends Operation {
 
     private static final List<String> UNITS = Arrays.asList("miles", "km");
