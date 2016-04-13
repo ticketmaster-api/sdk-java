@@ -1,0 +1,13 @@
+plugins {
+  id "nebula.provided-base" version "3.0.3"
+}
+
+
+subprojects {
+  apply plugin: "java"
+  apply plugin: 'nebula.provided-base'
+  repositories {
+    mavenCentral()
+  }
+}
+
