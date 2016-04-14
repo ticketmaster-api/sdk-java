@@ -1,4 +1,4 @@
-# Ticketmaster Java SDK
+# Ticketmaster Java SDK [![Build Status](https://travis-ci.org/ticketmaster-api/sdk-java.svg?branch=master)](https://travis-ci.org/ticketmaster-api/sdk-java)
 
 Detailed information about the APIs can be found here:  
 http://developer.ticketmaster.com/
