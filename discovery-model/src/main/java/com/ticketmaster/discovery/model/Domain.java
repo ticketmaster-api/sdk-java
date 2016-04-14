@@ -1,8 +1,5 @@
 package com.ticketmaster.discovery.model;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 public enum Domain {
 	TICKETMASTERCOM(1, "ticketmaster.com"), TICKETMASTERCA(2, "ticketmaster.ca"), TICKETMASTERMX(
@@ -26,29 +23,23 @@ public enum Domain {
 		return domainName;
 	}
 
-	public static Optional<Domain> findById(final Integer domainId) {
-        return findDomain(new Predicate<Domain>() {
-			@Override
-			public boolean test(Domain t) {
-
-				return t.domainId.equals(domainId);
+	public static Domain findById(final Integer domainId) {
+		for (Domain d : Domain.values()) {
+			if (d.domainId.equals(domainId)) {
+				return d;
 			}
-		});
-    }
-
-	public static Optional<Domain> findByName(final String domainName) {
-		return findDomain(new Predicate<Domain>() {
-			@Override
-			public boolean test(Domain t) {
-
-				return t.domainName.equalsIgnoreCase(domainName);
-			}
-		});
+		}
+		
+		return null;
 	}
 
-	private static Optional<Domain> findDomain(Predicate<Domain> domainPredicate) {
-		return Arrays.asList(Domain.values()).stream().filter(domainPredicate)
-				.findFirst();
+	public static Domain findByName(final String domainName) {
+		for (Domain d : Domain.values()) {
+			if (d.domainName.equals(domainName)) {
+				return d;
+			}
+		}
+		
+		return null;
 	}
-
 }

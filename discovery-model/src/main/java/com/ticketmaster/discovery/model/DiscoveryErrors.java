@@ -2,8 +2,10 @@ package com.ticketmaster.discovery.model;
 
 import lombok.Getter;
 
+
+
 @Getter
-public class DiscoveryErrors {
+public class DiscoveryErrors { // TODO: Use or delete this class
 /*
     @JsonProperty(value = "errors")
     private final List<DiscoveryError> errors;

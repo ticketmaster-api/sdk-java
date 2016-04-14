@@ -1,6 +1,7 @@
 package com.ticketmaster.discovery.v2;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -50,7 +51,10 @@ public class DiscoveryApi {
     private DiscoveryApi(DiscoveryApiBuilder builder) {
         this.apiKey = builder.apiKey;
         this.locale = builder.locale;
-        this.mapper = new ObjectMapper().registerModule(new GuavaModule()).registerModule(new JodaModule()).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        this.mapper = new ObjectMapper()  //
+        		.registerModule(new GuavaModule()) //
+        		.registerModule(new JodaModule()) //
+        		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private HttpUrl.Builder baseUrlBuilder() {
@@ -70,7 +74,9 @@ public class DiscoveryApi {
         HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz.getSimpleName()));
 
         builder.addPathSegment(operation.getId());
-        operation.getQueryParameters().entrySet().stream().forEach(e -> builder.addQueryParameter(e.getKey(), e.getValue()));
+        for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
+        	builder.addQueryParameter(e.getKey(), e.getValue());
+        }
 
         Request request = getRequest(builder.build());
         okhttp3.Response response = client.newCall(request).execute();
@@ -94,7 +100,9 @@ public class DiscoveryApi {
         logger.debug("searchEvents invoked with {}", operation);
 
         HttpUrl.Builder builder = urlBuilder(pathByType.get(Event.class.getSimpleName()));
-        operation.getQueryParameters().entrySet().stream().forEach(e -> builder.addQueryParameter(e.getKey(), e.getValue()));
+        for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
+        	builder.addQueryParameter(e.getKey(), e.getValue());
+        }
 
         logger.debug("searchEvents about to load {}", builder.build());
         Request request = getRequest(builder.build());
@@ -105,8 +113,11 @@ public class DiscoveryApi {
 
     public PagedResponse<Attractions> searchAttractions(SearchAttractionsOperation operation) throws IOException {
         logger.debug("searchAttractions invoked with {}", operation);
+        
         HttpUrl.Builder builder = urlBuilder(pathByType.get(Attraction.class.getSimpleName()));
-        operation.getQueryParameters().entrySet().stream().forEach(e -> builder.addQueryParameter(e.getKey(), e.getValue()));
+        for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
+        	builder.addQueryParameter(e.getKey(), e.getValue());
+        }
 
         logger.debug("searchEvents about to load {}", builder.build());
         Request request = getRequest(builder.build());
@@ -117,9 +128,12 @@ public class DiscoveryApi {
 
     public PagedResponse<Venues> searchVenues(SearchVenuesOperation operation) throws IOException {
         logger.debug("searchVenues invoked with {}", operation);
+        
         HttpUrl.Builder builder = urlBuilder(pathByType.get(Venue.class.getSimpleName()));
-        operation.getQueryParameters().entrySet().stream().forEach(e -> builder.addQueryParameter(e.getKey(), e.getValue()));
-
+        for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
+        	builder.addQueryParameter(e.getKey(), e.getValue());
+        }
+        
         logger.debug("searchEvents about to load {}", builder.build());
         Request request = getRequest(builder.build());
         okhttp3.Response response = client.newCall(request).execute();
