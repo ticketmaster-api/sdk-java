@@ -17,50 +17,50 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Classification {
 
-    private Boolean primary;
-    private Segment segment;
-    private Genre genre;
-    private SubGenre subGenre;
+  private Boolean primary;
+  private Segment segment;
+  private Genre genre;
+  private SubGenre subGenre;
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Segment {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Segment {
 
-        private String id;
-        private String name;
+    private String id;
+    private String name;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Genre {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Genre {
 
-        private String id;
-        private String name;
+    private String id;
+    private String name;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class SubGenre {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class SubGenre {
 
-        private String id;
-        private String name;
+    private String id;
+    private String name;
 
-    }
+  }
 }

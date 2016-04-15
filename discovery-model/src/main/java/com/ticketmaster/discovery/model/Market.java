@@ -17,6 +17,6 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Market {
 
-    String id;
+  String id;
 
 }

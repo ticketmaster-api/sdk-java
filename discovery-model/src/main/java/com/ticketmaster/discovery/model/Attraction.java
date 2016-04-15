@@ -13,20 +13,20 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonIgnoreProperties(value = { "type", "_links"})
+@JsonIgnoreProperties(value = {"type", "_links"})
 public class Attraction extends ResourceSupport {
 
-    private String id;
-    private String url;
-    private Image image;
-    private String name;
-    private String description;
-    private String locale;
-    private Boolean test;
-    private List<Classification> classifications;
-    private List<Image> images;
+  private String id;
+  private String url;
+  private Image image;
+  private String name;
+  private String description;
+  private String locale;
+  private Boolean test;
+  private List<Classification> classifications;
+  private List<Image> images;
 
 }

@@ -18,6 +18,6 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Venues {
 
-    private List<Venue> venues;
+  private List<Venue> venues;
 
 }
