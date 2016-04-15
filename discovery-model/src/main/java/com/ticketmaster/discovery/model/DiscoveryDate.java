@@ -17,99 +17,99 @@ import org.joda.time.DateTime;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DiscoveryDate {
 
-    private Start start;
-    private End end;
-    private String timezone;
-    private DisplayOptions displayOptions;
-    private Status status;
-    private AccessDates access;
+  private Start start;
+  private End end;
+  private String timezone;
+  private DisplayOptions displayOptions;
+  private Status status;
+  private AccessDates access;
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Start {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Start {
 
-        private DateTime dateTime;
-        private String localDate;
-        private String localTime;
-        private Boolean dateTBD;
-        private Boolean dateTBA;
-        private Boolean timeTBA;
-        private Boolean noSpecificTime;
-    }
+    private DateTime dateTime;
+    private String localDate;
+    private String localTime;
+    private Boolean dateTBD;
+    private Boolean dateTBA;
+    private Boolean timeTBA;
+    private Boolean noSpecificTime;
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class End {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class End {
 
-        private DateTime dateTime;
-        private String localDate;
-        private String localTime;
+    private DateTime dateTime;
+    private String localDate;
+    private String localTime;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class DisplayOptions {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class DisplayOptions {
 
-        private Range range;
+    private Range range;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Range {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Range {
 
-        private String localStartDate;
-        private String localEndDate;
+    private String localStartDate;
+    private String localEndDate;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Status {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Status {
 
-        private EventStatusEnum code;
+    private EventStatusEnum code;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public final static class AccessDates {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public final static class AccessDates {
 
-        private DateTime startDateTime;
-        private Boolean startApproximate;
-        private DateTime endDateTime;
-        private Boolean endApproximate;
+    private DateTime startDateTime;
+    private Boolean startApproximate;
+    private DateTime endDateTime;
+    private Boolean endApproximate;
 
-    }
+  }
 }

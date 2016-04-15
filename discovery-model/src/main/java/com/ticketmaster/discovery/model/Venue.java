@@ -17,93 +17,93 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonIgnoreProperties(value = { "type", "_links"})
+@JsonIgnoreProperties(value = {"type", "_links"})
 public class Venue extends ResourceSupport {
 
-    private String id;
+  private String id;
+  private String name;
+  private String locale;
+  private List<Market> markets;
+  private Country country;
+  private State state;
+  private City city;
+  private Location location;
+  private String postalCode;
+  private Address address;
+  private String timezone;
+  private Boolean test;
+
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Location {
+
+    private String latitude;
+
+    private String longitude;
+
+  }
+
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Country {
+
     private String name;
-    private String locale;
-    private List<Market> markets;
-    private Country country;
-    private State state;
-    private City city;
-    private Location location;
-    private String postalCode;
-    private Address address;
-    private String timezone;
-    private Boolean test;
+    private String countryCode;
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Location {
+  }
 
-        private String latitude;
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class State {
 
-        private String longitude;
+    private String name;
+    private String stateCode;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Country {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class City {
 
-        private String name;
-        private String countryCode;
+    private String name;
 
-    }
+  }
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class State {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Address {
 
-        private String name;
-        private String stateCode;
+    private String line1;
 
-    }
+    private String line2;
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class City {
-
-        private String name;
-
-    }
-
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Address {
-
-        private String line1;
-
-        private String line2;
-
-    }
+  }
 }

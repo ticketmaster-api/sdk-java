@@ -15,20 +15,20 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class ResourceSupport {
 
-    @Getter(AccessLevel.PRIVATE)
-    @Setter(AccessLevel.PRIVATE)
-    @JsonProperty("_embedded")
-    protected Embedded embedded;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  @JsonProperty("_embedded")
+  protected Embedded embedded;
 
-    @Getter
-    @Setter
-    @ToString
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    protected static class Embedded {
-        private List<Venue> venues;
-        private List<Attraction> attractions;
-        private List<Category> categories;
-    }
+  @Getter
+  @Setter
+  @ToString
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  protected static class Embedded {
+    private List<Venue> venues;
+    private List<Attraction> attractions;
+    private List<Category> categories;
+  }
 
 }

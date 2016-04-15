@@ -17,6 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Events {
 
-     private List<Event> events;
+  private List<Event> events;
 
 }

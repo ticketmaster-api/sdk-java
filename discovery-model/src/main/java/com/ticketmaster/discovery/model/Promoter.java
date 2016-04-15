@@ -17,6 +17,6 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Promoter {
 
-    String id;
+  String id;
 
 }

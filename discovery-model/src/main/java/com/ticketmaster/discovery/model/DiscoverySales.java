@@ -20,21 +20,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DiscoverySales {
 
-    @JsonProperty("public")
-    private Public publicSale;
+  @JsonProperty("public")
+  private Public publicSale;
 
 
-    @ToString
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public static class Public {
+  @ToString
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class Public {
 
-        private DateTime startDateTime;
-        private DateTime endDateTime;
-        private Boolean startTBD;
-    }
+    private DateTime startDateTime;
+    private DateTime endDateTime;
+    private Boolean startTBD;
+  }
 }

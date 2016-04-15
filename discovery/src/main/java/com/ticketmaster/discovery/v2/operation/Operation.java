@@ -7,10 +7,10 @@ import java.util.Map;
 
 public abstract class Operation {
 
-    protected Map<String, String> queryParams = new HashMap<String, String>();
+  protected Map<String, String> queryParams = new HashMap<String, String>();
 
-    public Map<String, String> getQueryParameters() {
-        return ImmutableMap.copyOf(queryParams);
-    }
+  public Map<String, String> getQueryParameters() {
+    return ImmutableMap.copyOf(queryParams);
+  }
 
 }

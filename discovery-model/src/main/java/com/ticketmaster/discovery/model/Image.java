@@ -15,10 +15,10 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Image {
 
-    private String url;
-    private String ratio;
-    private Integer width;
-    private Integer height;
-    private Boolean fallback;
+  private String url;
+  private String ratio;
+  private Integer width;
+  private Integer height;
+  private Boolean fallback;
 
 }

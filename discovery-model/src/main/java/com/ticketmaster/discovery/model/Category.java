@@ -12,14 +12,14 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonIgnoreProperties(value = { "type", "_links"})
+@JsonIgnoreProperties(value = {"type", "_links"})
 public class Category extends ResourceSupport {
 
-    private String id;
-    private String name;
-    private String locale;
-    private Integer level;
+  private String id;
+  private String name;
+  private String locale;
+  private Integer level;
 }
