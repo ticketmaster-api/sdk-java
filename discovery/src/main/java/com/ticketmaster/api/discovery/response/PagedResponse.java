@@ -1,10 +1,11 @@
-package com.ticketmaster.discovery.model;
+package com.ticketmaster.api.discovery.response;
 
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
+import com.ticketmaster.discovery.model.Page;
 import com.ticketmaster.discovery.model.Page.Link;
 import com.ticketmaster.discovery.model.Page.PageInfo;
 

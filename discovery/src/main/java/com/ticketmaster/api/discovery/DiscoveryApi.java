@@ -1,4 +1,4 @@
-package com.ticketmaster.discovery.v2;
+package com.ticketmaster.api.discovery;
 
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -17,20 +17,20 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.net.HttpHeaders;
-import com.ticketmaster.Version;
+import com.ticketmaster.api.Version;
+import com.ticketmaster.api.discovery.operation.ByIdOperation;
+import com.ticketmaster.api.discovery.operation.SearchAttractionsOperation;
+import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
+import com.ticketmaster.api.discovery.operation.SearchVenuesOperation;
+import com.ticketmaster.api.discovery.response.PagedResponse;
+import com.ticketmaster.api.discovery.response.Response;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Attractions;
 import com.ticketmaster.discovery.model.Event;
 import com.ticketmaster.discovery.model.Events;
 import com.ticketmaster.discovery.model.Page.Link;
-import com.ticketmaster.discovery.model.PagedResponse;
-import com.ticketmaster.discovery.model.Response;
 import com.ticketmaster.discovery.model.Venue;
 import com.ticketmaster.discovery.model.Venues;
-import com.ticketmaster.discovery.v2.operation.ByIdOperation;
-import com.ticketmaster.discovery.v2.operation.SearchAttractionsOperation;
-import com.ticketmaster.discovery.v2.operation.SearchEventsOperation;
-import com.ticketmaster.discovery.v2.operation.SearchVenuesOperation;
 
 public class DiscoveryApi {
 
@@ -122,7 +122,7 @@ public class DiscoveryApi {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
 
-    logger.debug("searchEvents about to load {}", builder.build());
+    logger.debug("searchAttractions about to load {}", builder.build());
     Request request = getRequest(builder.build());
     okhttp3.Response response = client.newCall(request).execute();
 
@@ -137,7 +137,7 @@ public class DiscoveryApi {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
 
-    logger.debug("searchEvents about to load {}", builder.build());
+    logger.debug("searchVenues about to load {}", builder.build());
     Request request = getRequest(builder.build());
     okhttp3.Response response = client.newCall(request).execute();
 
