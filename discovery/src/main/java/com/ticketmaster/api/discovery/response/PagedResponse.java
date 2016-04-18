@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import com.ticketmaster.discovery.model.Page;
 import com.ticketmaster.discovery.model.Page.Link;
 import com.ticketmaster.discovery.model.Page.PageInfo;
@@ -23,7 +22,7 @@ public class PagedResponse<T> extends Response<T> {
     try {
       this.page = mapper.readValue(httpResponse.body().string(), javaType);
     } catch (IOException ioe) {
-      Throwables.propagate(ioe);
+      throw new RuntimeException(ioe);
     }
     this.content = page.getEmbedded();
   }

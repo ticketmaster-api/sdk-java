@@ -1,6 +1,8 @@
 package com.ticketmaster.api.discovery;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import okhttp3.HttpUrl;
@@ -14,9 +16,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.net.HttpHeaders;
 import com.ticketmaster.api.Version;
 import com.ticketmaster.api.discovery.operation.ByIdOperation;
 import com.ticketmaster.api.discovery.operation.SearchAttractionsOperation;
@@ -24,6 +23,7 @@ import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
 import com.ticketmaster.api.discovery.operation.SearchVenuesOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.api.discovery.response.Response;
+import com.ticketmaster.api.discovery.util.Preconditions;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Attractions;
 import com.ticketmaster.discovery.model.Event;
@@ -36,15 +36,21 @@ public class DiscoveryApi {
 
   private Logger logger = LoggerFactory.getLogger(DiscoveryApi.class);
 
+  private static final String USER_AGENT = "User-Agent";
   private final String domainName = "app.ticketmaster.com";
   private final String apiPackage = "discovery";
   private final String apiVersion = "v2";
   private final OkHttpClient client = new OkHttpClient();
   private final ObjectMapper mapper;
 
-  private final ImmutableMap<String, String> pathByType = ImmutableMap.of(
-      Event.class.getSimpleName(), "events", Attraction.class.getSimpleName(), "attractions",
-      Venue.class.getSimpleName(), "venues");
+  @SuppressWarnings("serial")
+  private final Map<String, String> pathByType = new HashMap<String, String>() {
+    {
+      put(Event.class.getSimpleName(), "events");
+      put(Attraction.class.getSimpleName(), "attractions");
+      put(Venue.class.getSimpleName(), "venues");
+    }
+  };
 
   private String apiKey = null;
   private String locale = null;
@@ -73,7 +79,7 @@ public class DiscoveryApi {
 
   private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
     logger.debug("get{} invoked with {}", clazz.getSimpleName(), operation);
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType(clazz.getSimpleName()));
 
     builder.addPathSegment(operation.getId());
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
@@ -161,6 +167,20 @@ public class DiscoveryApi {
     return navigateTo(response.getPreviousPageLink(), response.getType());
   }
 
+  private String pathByType(String simpleName) {
+    if (Event.class.getSimpleName().equals(simpleName)) {
+      return "events";
+    }
+    if (Attraction.class.getSimpleName().equals(simpleName)) {
+      return "attractions";
+    }
+    if (Venue.class.getSimpleName().equals(simpleName)) {
+      return "venues";
+    }
+    throw new IllegalArgumentException(String.format("Unsupported type %s", simpleName));
+  }
+
+
   private <T> PagedResponse<T> navigateTo(Link link, Class<T> type) throws IOException {
     HttpUrl baseUrl = baseUrlBuilder().build();
     HttpUrl nextUrl = baseUrl.resolve(link.getRelativeHref());
@@ -180,7 +200,7 @@ public class DiscoveryApi {
     }
 
     return new Request.Builder().url(urlBuilder.build())
-        .addHeader(HttpHeaders.USER_AGENT, Version.getUserAgent()).build();
+        .addHeader(USER_AGENT, Version.getUserAgent()).build();
   }
 
   public static class DiscoveryApiBuilder {

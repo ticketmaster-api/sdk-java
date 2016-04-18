@@ -1,37 +1,47 @@
 package com.ticketmaster.api.discovery.operation;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.ticketmaster.api.discovery.util.Preconditions;
 
 public abstract class Operation<T extends Operation<T>> {
 
   protected Map<String, String> queryParams = new HashMap<String, String>();
 
   protected abstract T getThis();
-  
+
   public Map<String, String> getQueryParameters() {
-    return ImmutableMap.copyOf(queryParams);
+    return queryParams;
   }
 
   public T locale(String locale) {
-    return with("locale", locale);
+    return withParam("locale", locale);
   }
 
-  protected T with(String key, String value) {
+  public T withParam(String key, String value) {
+    return withParam(key, value, false);
+  }
+
+  public T withParam(String key, String value, boolean emptyAllowed) {
     Preconditions.checkNotNull(value);
-    Preconditions.checkArgument(!value.trim().isEmpty());
-    
+    if (!emptyAllowed) {
+      Preconditions.checkArgument(!value.trim().isEmpty());
+    }
+
     queryParams.put(key, value);
     return getThis();
   }
 
-  protected T with(String key, Integer value) {
+  public T with(String key, Integer value) {
+    return with(key, value, 0);
+  }
+
+  public T with(String key, Integer value, Integer minValue) {
     Preconditions.checkNotNull(value);
-    Preconditions.checkArgument(value > 0);
-    
+    Preconditions.checkNotNull(minValue);
+    Preconditions.checkArgument(value >= minValue);
+
     queryParams.put(key, value.toString());
     return getThis();
   }

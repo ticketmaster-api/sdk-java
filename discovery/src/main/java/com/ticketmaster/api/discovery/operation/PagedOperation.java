@@ -12,6 +12,6 @@ public abstract class PagedOperation<T extends Operation<T>> extends Operation<T
   }
 
   public T sort(String sort) {
-    return with("sort", sort);
+    return withParam("sort", sort);
   }
 }

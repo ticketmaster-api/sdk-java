@@ -8,11 +8,11 @@ import lombok.ToString;
 public class SearchVenuesOperation extends PagedOperation<SearchVenuesOperation> {
 
   public SearchVenuesOperation keyword(String keyword) {
-    return with("keyword", keyword);
+    return withParam("keyword", keyword);
   }
-  
+
   public SearchVenuesOperation venueId(String venueId) {
-    return with("venueId", venueId);
+    return withParam("venueId", venueId);
   }
 
   @Override

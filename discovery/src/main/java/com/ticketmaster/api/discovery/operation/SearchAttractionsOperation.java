@@ -7,16 +7,16 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class SearchAttractionsOperation extends PagedOperation<SearchAttractionsOperation> {
 
-    public SearchAttractionsOperation keyword(String keyword) {
-      return with("keyword", keyword);
-    }
+  public SearchAttractionsOperation keyword(String keyword) {
+    return withParam("keyword", keyword);
+  }
 
-    public SearchAttractionsOperation attractionId(String attractionId) {
-      return with("attractionId", attractionId);
-    }
+  public SearchAttractionsOperation attractionId(String attractionId) {
+    return withParam("attractionId", attractionId);
+  }
 
-    @Override
-    protected SearchAttractionsOperation getThis() {
-      return this;
-    }
+  @Override
+  protected SearchAttractionsOperation getThis() {
+    return this;
+  }
 }
