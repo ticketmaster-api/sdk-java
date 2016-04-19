@@ -1,6 +1,7 @@
-package com.ticketmaster.discovery.v2;
+package com.ticketmaster.api.discovery;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import okhttp3.HttpUrl;
@@ -14,76 +15,54 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.net.HttpHeaders;
-import com.ticketmaster.Version;
+import com.ticketmaster.api.Version;
+import com.ticketmaster.api.discovery.operation.ByIdOperation;
+import com.ticketmaster.api.discovery.operation.SearchAttractionsOperation;
+import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
+import com.ticketmaster.api.discovery.operation.SearchVenuesOperation;
+import com.ticketmaster.api.discovery.response.PagedResponse;
+import com.ticketmaster.api.discovery.response.Response;
+import com.ticketmaster.api.discovery.util.Preconditions;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Attractions;
 import com.ticketmaster.discovery.model.Event;
 import com.ticketmaster.discovery.model.Events;
 import com.ticketmaster.discovery.model.Page.Link;
-import com.ticketmaster.discovery.model.PagedResponse;
-import com.ticketmaster.discovery.model.Response;
 import com.ticketmaster.discovery.model.Venue;
 import com.ticketmaster.discovery.model.Venues;
-import com.ticketmaster.discovery.v2.operation.ByIdOperation;
-import com.ticketmaster.discovery.v2.operation.SearchAttractionsOperation;
-import com.ticketmaster.discovery.v2.operation.SearchEventsOperation;
-import com.ticketmaster.discovery.v2.operation.SearchVenuesOperation;
 
 public class DiscoveryApi {
 
   private Logger logger = LoggerFactory.getLogger(DiscoveryApi.class);
 
+  private static final String USER_AGENT = "User-Agent";
   private final String domainName = "app.ticketmaster.com";
   private final String apiPackage = "discovery";
   private final String apiVersion = "v2";
   private final OkHttpClient client = new OkHttpClient();
   private final ObjectMapper mapper;
+  private final String apiKey;
+  private final HashMap<Class<?>, String> pathByType;
+  private String defaultLocale = null;
 
-  private final ImmutableMap<String, String> pathByType = ImmutableMap.of(
-      Event.class.getSimpleName(), "events", Attraction.class.getSimpleName(), "attractions",
-      Venue.class.getSimpleName(), "venues");
-
-  private String apiKey = null;
-  private String locale = null;
-
-  private DiscoveryApi(DiscoveryApiBuilder builder) {
-    this.apiKey = builder.apiKey;
-    this.locale = builder.locale;
+  public DiscoveryApi(String apiKey) {
+    Preconditions.checkNotNull(apiKey, "The API key is mandatory");
+    this.apiKey = apiKey;
     this.mapper = new ObjectMapper() //
         .registerModule(new GuavaModule()) //
         .registerModule(new JodaModule()) //
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    this.pathByType = new HashMap<>();
+    this.pathByType.put(Event.class, "events");
+    this.pathByType.put(Attraction.class, "attractions");
+    this.pathByType.put(Venue.class, "venues");
   }
 
-  private HttpUrl.Builder baseUrlBuilder() {
-    return new HttpUrl.Builder().scheme("https").host(domainName);
-  }
-
-  private HttpUrl.Builder urlBuilder(String path) {
-    return baseUrlBuilder().addPathSegment(apiPackage).addPathSegment(apiVersion)
-        .addPathSegment(path);
-  }
-
-  public static DiscoveryApiBuilder builder(String apiKey) {
-    return new DiscoveryApiBuilder(apiKey);
-  }
-
-  private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
-    logger.debug("get{} invoked with {}", clazz.getSimpleName(), operation);
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz.getSimpleName()));
-
-    builder.addPathSegment(operation.getId());
-    for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
-      builder.addQueryParameter(e.getKey(), e.getValue());
-    }
-
-    Request request = getRequest(builder.build());
-    okhttp3.Response response = client.newCall(request).execute();
-
-    return new Response<T>(response, mapper, clazz);
+  public DiscoveryApi defaultLocale(String locale) {
+    Preconditions.checkNotNull(locale);
+    // TODO: Validate the locale is allowed
+    this.defaultLocale = locale;
+    return this;
   }
 
   public Response<Event> getEvent(ByIdOperation operation) throws IOException {
@@ -101,7 +80,7 @@ public class DiscoveryApi {
   public PagedResponse<Events> searchEvents(SearchEventsOperation operation) throws IOException {
     logger.debug("searchEvents invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Event.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Event.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -117,12 +96,12 @@ public class DiscoveryApi {
       throws IOException {
     logger.debug("searchAttractions invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Attraction.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Attraction.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
 
-    logger.debug("searchEvents about to load {}", builder.build());
+    logger.debug("searchAttractions about to load {}", builder.build());
     Request request = getRequest(builder.build());
     okhttp3.Response response = client.newCall(request).execute();
 
@@ -132,12 +111,12 @@ public class DiscoveryApi {
   public PagedResponse<Venues> searchVenues(SearchVenuesOperation operation) throws IOException {
     logger.debug("searchVenues invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Venue.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Venue.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
 
-    logger.debug("searchEvents about to load {}", builder.build());
+    logger.debug("searchVenues about to load {}", builder.build());
     Request request = getRequest(builder.build());
     okhttp3.Response response = client.newCall(request).execute();
 
@@ -160,6 +139,30 @@ public class DiscoveryApi {
 
     return navigateTo(response.getPreviousPageLink(), response.getType());
   }
+  
+  private HttpUrl.Builder baseUrlBuilder() {
+    return new HttpUrl.Builder().scheme("https").host(domainName);
+  }
+
+  private HttpUrl.Builder urlBuilder(String path) {
+    return baseUrlBuilder().addPathSegment(apiPackage).addPathSegment(apiVersion)
+        .addPathSegment(path);
+  }
+
+  private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
+    logger.debug("get{} invoked with {}", clazz.getSimpleName(), operation);
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz));
+
+    builder.addPathSegment(operation.getId());
+    for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
+      builder.addQueryParameter(e.getKey(), e.getValue());
+    }
+
+    Request request = getRequest(builder.build());
+    okhttp3.Response response = client.newCall(request).execute();
+
+    return new Response<T>(response, mapper, clazz);
+  }
 
   private <T> PagedResponse<T> navigateTo(Link link, Class<T> type) throws IOException {
     HttpUrl baseUrl = baseUrlBuilder().build();
@@ -175,34 +178,11 @@ public class DiscoveryApi {
 
   private Request getRequest(HttpUrl url) {
     HttpUrl.Builder urlBuilder = url.newBuilder().addQueryParameter("apikey", apiKey);
-    if (locale != null && url.queryParameter("locale") == null) {
-      urlBuilder.addQueryParameter("locale", locale);
+    if (defaultLocale != null && url.queryParameter("locale") == null) {
+      urlBuilder.addQueryParameter("locale", defaultLocale);
     }
 
     return new Request.Builder().url(urlBuilder.build())
-        .addHeader(HttpHeaders.USER_AGENT, Version.getUserAgent()).build();
-  }
-
-  public static class DiscoveryApiBuilder {
-
-    private String apiKey;
-    private String locale;
-
-    public DiscoveryApiBuilder(String apiKey) {
-      Preconditions.checkNotNull(apiKey, "The API key is mandatory");
-      this.apiKey = apiKey;
-    }
-
-    public DiscoveryApiBuilder defaultLocale(String locale) {
-      Preconditions.checkNotNull(locale);
-      // TODO: Validate the locale is allowed
-      this.locale = locale;
-      return this;
-    }
-
-    public DiscoveryApi build() {
-      return new DiscoveryApi(this);
-    }
-
+        .addHeader(USER_AGENT, Version.getUserAgent()).build();
   }
 }

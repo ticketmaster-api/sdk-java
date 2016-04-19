@@ -1,4 +1,4 @@
-package com.ticketmaster;
+package com.ticketmaster.api;
 
 public class Version {
 

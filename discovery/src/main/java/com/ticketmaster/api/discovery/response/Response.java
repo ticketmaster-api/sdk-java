@@ -1,4 +1,4 @@
-package com.ticketmaster.discovery.model;
+package com.ticketmaster.api.discovery.response;
 
 import java.io.IOException;
 
