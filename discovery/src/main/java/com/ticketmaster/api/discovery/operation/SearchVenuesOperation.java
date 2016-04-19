@@ -15,6 +15,10 @@ public class SearchVenuesOperation extends PagedOperation<SearchVenuesOperation>
     return withParam("venueId", venueId);
   }
 
+  public SearchVenuesOperation venueId(String... venueIds) {
+    return withCommaSeparatedParam("venueId", venueIds);
+  }
+  
   @Override
   protected SearchVenuesOperation getThis() {
     return this;

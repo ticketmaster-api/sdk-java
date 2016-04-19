@@ -22,12 +22,24 @@ public class SearchEventsOperation extends PagedOperation<SearchEventsOperation>
     return withParam("attractionId", attractionId);
   }
 
+  public SearchEventsOperation attractionId(String... attractionIds) {
+    return withCommaSeparatedParam("attractionId", attractionIds);
+  }
+
   public SearchEventsOperation venueId(String venueId) {
     return withParam("venueId", venueId);
   }
 
+  public SearchEventsOperation venueId(String... venueIds) {
+    return withCommaSeparatedParam("venueId", venueIds);
+  }
+
   public SearchEventsOperation promoterId(String promoterId) {
     return withParam("promoterId", promoterId);
+  }
+
+  public SearchEventsOperation promoterId(String... promoterIds) {
+    return withCommaSeparatedParam("promoterId", promoterIds);
   }
 
   public SearchEventsOperation postalCode(String postalCode) {
@@ -39,7 +51,7 @@ public class SearchEventsOperation extends PagedOperation<SearchEventsOperation>
   }
 
   public SearchEventsOperation radius(Integer radius) {
-    return with("radius", radius);
+    return withParam("radius", radius);
   }
 
   public SearchEventsOperation unit(String unit) {
@@ -49,7 +61,7 @@ public class SearchEventsOperation extends PagedOperation<SearchEventsOperation>
   }
 
   public SearchEventsOperation marketId(Integer marketId) {
-    return with("marketId", marketId);
+    return withParam("marketId", marketId);
   }
 
   @Override

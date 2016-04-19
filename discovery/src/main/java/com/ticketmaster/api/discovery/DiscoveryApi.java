@@ -1,6 +1,7 @@
 package com.ticketmaster.api.discovery;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import okhttp3.HttpUrl;
@@ -40,9 +41,9 @@ public class DiscoveryApi {
   private final String apiVersion = "v2";
   private final OkHttpClient client = new OkHttpClient();
   private final ObjectMapper mapper;
-
-  private String apiKey = null;
-  private String locale = null;
+  private final String apiKey;
+  private final HashMap<Class<?>, String> pathByType;
+  private String defaultLocale = null;
 
   public DiscoveryApi(String apiKey) {
     Preconditions.checkNotNull(apiKey, "The API key is mandatory");
@@ -51,12 +52,16 @@ public class DiscoveryApi {
         .registerModule(new GuavaModule()) //
         .registerModule(new JodaModule()) //
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    this.pathByType = new HashMap<>();
+    this.pathByType.put(Event.class, "events");
+    this.pathByType.put(Attraction.class, "attractions");
+    this.pathByType.put(Venue.class, "venues");
   }
 
   public DiscoveryApi defaultLocale(String locale) {
     Preconditions.checkNotNull(locale);
     // TODO: Validate the locale is allowed
-    this.locale = locale;
+    this.defaultLocale = locale;
     return this;
   }
 
@@ -75,7 +80,7 @@ public class DiscoveryApi {
   public PagedResponse<Events> searchEvents(SearchEventsOperation operation) throws IOException {
     logger.debug("searchEvents invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType(Event.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Event.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -91,7 +96,7 @@ public class DiscoveryApi {
       throws IOException {
     logger.debug("searchAttractions invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType(Attraction.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Attraction.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -106,7 +111,7 @@ public class DiscoveryApi {
   public PagedResponse<Venues> searchVenues(SearchVenuesOperation operation) throws IOException {
     logger.debug("searchVenues invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType(Venue.class.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(Venue.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -146,7 +151,7 @@ public class DiscoveryApi {
 
   private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
     logger.debug("get{} invoked with {}", clazz.getSimpleName(), operation);
-    HttpUrl.Builder builder = urlBuilder(pathByType(clazz.getSimpleName()));
+    HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz));
 
     builder.addPathSegment(operation.getId());
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
@@ -158,20 +163,6 @@ public class DiscoveryApi {
 
     return new Response<T>(response, mapper, clazz);
   }
-
-  private String pathByType(String simpleName) {
-    if (Event.class.getSimpleName().equals(simpleName)) {
-      return "events";
-    }
-    if (Attraction.class.getSimpleName().equals(simpleName)) {
-      return "attractions";
-    }
-    if (Venue.class.getSimpleName().equals(simpleName)) {
-      return "venues";
-    }
-    throw new IllegalArgumentException(String.format("Unsupported type %s", simpleName));
-  }
-
 
   private <T> PagedResponse<T> navigateTo(Link link, Class<T> type) throws IOException {
     HttpUrl baseUrl = baseUrlBuilder().build();
@@ -187,8 +178,8 @@ public class DiscoveryApi {
 
   private Request getRequest(HttpUrl url) {
     HttpUrl.Builder urlBuilder = url.newBuilder().addQueryParameter("apikey", apiKey);
-    if (locale != null && url.queryParameter("locale") == null) {
-      urlBuilder.addQueryParameter("locale", locale);
+    if (defaultLocale != null && url.queryParameter("locale") == null) {
+      urlBuilder.addQueryParameter("locale", defaultLocale);
     }
 
     return new Request.Builder().url(urlBuilder.build())

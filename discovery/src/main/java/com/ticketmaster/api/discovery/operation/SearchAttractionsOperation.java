@@ -15,6 +15,10 @@ public class SearchAttractionsOperation extends PagedOperation<SearchAttractions
     return withParam("attractionId", attractionId);
   }
 
+  public SearchAttractionsOperation attractionId(String... attractionIds) {
+    return withCommaSeparatedParam("attractionId", attractionIds);
+  }
+
   @Override
   protected SearchAttractionsOperation getThis() {
     return this;
