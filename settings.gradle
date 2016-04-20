@@ -1,1 +1,3 @@
 include 'discovery', 'discovery-model'
+project(":discovery").name = "discovery-java"
+project(":discovery-model").name = "discovery-model-java"

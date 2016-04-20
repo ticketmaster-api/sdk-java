@@ -1,0 +1,44 @@
+//
+// Artifactory
+// ./gradlew bintrayUpload (upload release to JCenter)
+//
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+try {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+} catch (FileNotFoundException ignore) {}
+
+group = GROUP_ID
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = [ "_${project.name}_" ]
+    pkg {
+        repo = 'maven'
+        name = project.name
+        userOrg = 'ticketmaster-api'
+        desc = DESCRIPTION
+        websiteUrl = WEBSITE_URL
+        vcsUrl = SCM_URL
+        githubRepo = GITHUB_REPO
+        licenses = [ LICENSE_NAME ]
+        publicDownloadNumbers = true
+        publish = true
+        dryRun = System.getenv('BINTRAY_DRYRUN') != null ? System.getenv('BINTRAY_DRYRUN') : false 
+        version {
+            name = VERSION
+            gpg {
+                // Without this, .asc files don't get generated
+                sign = true
+            }
+            mavenCentralSync {
+                sync = true
+                user = System.getenv('SONATYPE_USER')
+                password = System.getenv('SONATYPE_PASSWORD')
+                close = System.getenv('SONATYPE_CLOSE') != null ? System.getenv('SONATYPE_CLOSE') : '0'
+            }       
+        }
+    }
+}
