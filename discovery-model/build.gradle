@@ -1,9 +1,15 @@
-dependencies {
-	compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
-	compile 'joda-time:joda-time:2.9.2'
-
-	provided 'org.projectlombok:lombok:1.16.6'
-
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.assertj:assertj-core:2.4.1'
+plugins {
+    id "com.jfrog.bintray" version "1.6"
 }
+
+dependencies {
+  compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
+  compile 'joda-time:joda-time:2.9.2'
+
+  provided 'org.projectlombok:lombok:1.16.6'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:2.4.1'
+}
+  
+apply from: '../gradle/publishing.gradle'

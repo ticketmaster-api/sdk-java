@@ -3,17 +3,19 @@
 Detailed information about the APIs can be found here:  
 http://developer.ticketmaster.com/
 
-## Basic Usage
+## Usage
+
+### Basic Usage
 
 ```java
 String apikey = "<YOUR KEY>";
-DiscoveryApi api = DiscoveryApi.builder(apikey).build();
+DiscoveryApi api = new DiscoveryApi(apikey);
 
-PagedResponse<Events> page = api.searchEvents(SearchEventsOperation.builder().keyword("<SEARCH TERM>").build());
+PagedResponse<Events> page = api.searchEvents(new SearchEventsOperation().keyword("<SEARCH TERM>"));
 List<Event> events = page.getContent().getEvents();
 ```
 
-## Rate Limit
+### Rate Limit
 
 The Rate Limit information documented [here](http://developer.ticketmaster.com/products-and-docs/apis/getting-started/) can be retrieved using:
 ```java
@@ -26,5 +28,9 @@ RateLimit rateLimit = response.getRateLimit();
 
 ## Android compatibility
  
- The compatibility with Android was not tested yet, but most of the dependencies seems to be compatible with Android.  
- Feel free to open issues and pull requests.
+Although the compatibility with Android is not fully tested yet, we choose to use Java 7 and compatible dependencies.     
+Feel free to open issues and pull requests regarding that.
+
+## Contributing
+
+Please check out [this page](../blob/master/CONTRIBUTING.md)

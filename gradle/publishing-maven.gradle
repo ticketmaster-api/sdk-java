@@ -1,0 +1,46 @@
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+
+version = VERSION
+
+// Customizing the generated pom.xml to comply with the requirement from Maven Central
+publishing {
+    publications {
+        "_${project.name}_"(MavenPublication) {
+            groupId GROUP_ID
+            artifactId project.name
+            
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name project.name
+                    description DESCRIPTION
+                    url WEBSITE_URL
+                    scm {
+                        connection SCM_CONNECTION
+                        developerConnection SCM_DEVELOPER
+                        url SCM_URL
+                    }
+                    licenses {
+                        license {
+                            name LICENSE_NAME
+                            url LICENSE_URL
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id DEVELOPER_ID
+                            name DEVELOPER_NAME
+                            email DEVELOPER_EMAIL
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
