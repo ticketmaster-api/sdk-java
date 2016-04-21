@@ -4,16 +4,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.ticketmaster.api.Version;
 import com.ticketmaster.api.discovery.operation.ByIdOperation;
@@ -31,38 +26,37 @@ import com.ticketmaster.discovery.model.Page.Link;
 import com.ticketmaster.discovery.model.Venue;
 import com.ticketmaster.discovery.model.Venues;
 
+import okhttp3.HttpUrl;
+import okhttp3.HttpUrl.Builder;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class DiscoveryApi {
 
   private Logger logger = LoggerFactory.getLogger(DiscoveryApi.class);
 
   private static final String USER_AGENT = "User-Agent";
-  private final String domainName = "app.ticketmaster.com";
-  private final String apiPackage = "discovery";
-  private final String apiVersion = "v2";
+  private final DiscoveryApiConfiguration configuration;
   private final OkHttpClient client = new OkHttpClient();
   private final ObjectMapper mapper;
   private final String apiKey;
   private final HashMap<Class<?>, String> pathByType;
-  private String defaultLocale = null;
 
   public DiscoveryApi(String apiKey) {
+    this(apiKey, DiscoveryApiConfiguration.builder().build());
+  }
+
+  public DiscoveryApi(String apiKey, DiscoveryApiConfiguration configuration) {
     Preconditions.checkNotNull(apiKey, "The API key is mandatory");
     this.apiKey = apiKey;
+    this.configuration = configuration;
     this.mapper = new ObjectMapper() //
-        .registerModule(new GuavaModule()) //
         .registerModule(new JodaModule()) //
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     this.pathByType = new HashMap<>();
     this.pathByType.put(Event.class, "events");
     this.pathByType.put(Attraction.class, "attractions");
     this.pathByType.put(Venue.class, "venues");
-  }
-
-  public DiscoveryApi defaultLocale(String locale) {
-    Preconditions.checkNotNull(locale);
-    // TODO: Validate the locale is allowed
-    this.defaultLocale = locale;
-    return this;
   }
 
   public Response<Event> getEvent(ByIdOperation operation) throws IOException {
@@ -139,14 +133,20 @@ public class DiscoveryApi {
 
     return navigateTo(response.getPreviousPageLink(), response.getType());
   }
-  
+
   private HttpUrl.Builder baseUrlBuilder() {
-    return new HttpUrl.Builder().scheme("https").host(domainName);
+    Builder builder = new HttpUrl.Builder();
+    builder.scheme(configuration.getProtocol());
+    builder.host(configuration.getDomainName());
+    if (configuration.isPortSet()) {
+      builder.port(configuration.getPort());
+    }
+    return builder;
   }
 
   private HttpUrl.Builder urlBuilder(String path) {
-    return baseUrlBuilder().addPathSegment(apiPackage).addPathSegment(apiVersion)
-        .addPathSegment(path);
+    return baseUrlBuilder().addPathSegment(configuration.getApiPackage())
+        .addPathSegment(configuration.getApiVersion()).addPathSegment(path);
   }
 
   private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
@@ -178,8 +178,8 @@ public class DiscoveryApi {
 
   private Request getRequest(HttpUrl url) {
     HttpUrl.Builder urlBuilder = url.newBuilder().addQueryParameter("apikey", apiKey);
-    if (defaultLocale != null && url.queryParameter("locale") == null) {
-      urlBuilder.addQueryParameter("locale", defaultLocale);
+    if (configuration.getDefaultLocale() != null && url.queryParameter("locale") == null) {
+      urlBuilder.addQueryParameter("locale", configuration.getDefaultLocale());
     }
 
     return new Request.Builder().url(urlBuilder.build())

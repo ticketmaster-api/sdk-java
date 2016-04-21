@@ -1,5 +1,7 @@
 package com.ticketmaster.api.discovery.util;
 
+import java.util.regex.Pattern;
+
 public class Preconditions {
 
   private Preconditions() {}
@@ -25,6 +27,20 @@ public class Preconditions {
   public static void checkArgument(boolean expression) {
     if (!expression) {
       throw new IllegalArgumentException();
+    }
+  }
+
+  public static void checkNotEmpty(String value, String message) {
+    if (value == null || value.trim().isEmpty()) {
+      throw new IllegalArgumentException(message);
+    }
+  }
+
+  public static void checkIllegalCharacters(String value, String caracters) {
+    for (char c : caracters.toCharArray()) {
+      if (value.contains(String.valueOf(c))) {
+        throw new IllegalArgumentException("Value cannot contain '" + c + "'.");
+      }
     }
   }
 }
