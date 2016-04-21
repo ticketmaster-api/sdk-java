@@ -26,7 +26,7 @@ bintray {
         licenses = [ LICENSE_NAME ]
         publicDownloadNumbers = true
         publish = true
-        dryRun = System.getenv('BINTRAY_DRYRUN') != null ? System.getenv('BINTRAY_DRYRUN') : true 
+        dryRun = System.getenv('BINTRAY_DRYRUN') != null ? Boolean.valueOf(System.getenv('BINTRAY_DRYRUN')) : true 
         version {
             name = VERSION
             gpg {
