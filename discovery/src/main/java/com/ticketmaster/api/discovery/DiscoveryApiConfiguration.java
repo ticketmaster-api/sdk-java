@@ -5,12 +5,6 @@ import static com.ticketmaster.api.discovery.util.Preconditions.checkIllegalChar
 import static com.ticketmaster.api.discovery.util.Preconditions.checkNotEmpty;
 import static com.ticketmaster.api.discovery.util.Preconditions.checkNotNull;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.regex.Pattern;
-
-import com.ticketmaster.api.discovery.util.Preconditions;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -43,23 +37,23 @@ public class DiscoveryApiConfiguration {
 
   public class DiscoveryApiConfigurationBuilder {
 
-    public DiscoveryApiConfigurationBuilder proxyHost(String host) {
-      checkNotEmpty(host, "proxyHost must be neither null nor empty.");
+    public DiscoveryApiConfigurationBuilder host(String host) {
+      checkNotEmpty(host, "host must be neither null nor empty.");
       checkIllegalCharacters(host, ":/"); // Not complete but sufficient.
       domainName = host;
       return this;
     }
 
-    public DiscoveryApiConfigurationBuilder proxyPort(int proxyPort) {
-      checkArgument(proxyPort > 0 && proxyPort < 0xFFFF, "proxyPort must be between 0 and 65535.");
-      port = Integer.valueOf(proxyPort);
+    public DiscoveryApiConfigurationBuilder port(int newPort) {
+      checkArgument(newPort > 0 && newPort < 0xFFFF, "port must be between 0 and 65535.");
+      port = Integer.valueOf(newPort);
       return this;
     }
 
-    public DiscoveryApiConfigurationBuilder proxyProtocol(String pxyProtocol) {
-      checkNotNull(pxyProtocol, "proxyProtocol must not be null.");
-      checkArgument(pxyProtocol.matches("^https?$"), "proxyProtocol supports: http, https.");
-      protocol = pxyProtocol;
+    public DiscoveryApiConfigurationBuilder protocol(String newProtocol) {
+      checkNotNull(newProtocol, "protocol must not be null.");
+      checkArgument(newProtocol.matches("^https?$"), "Protocols supported: http, https.");
+      protocol = newProtocol;
       return this;
     }
 

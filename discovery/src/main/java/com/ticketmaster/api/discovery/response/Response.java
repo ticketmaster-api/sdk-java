@@ -42,7 +42,7 @@ public class Response<T> {
       }
       return jsonPayload;
     } catch (IOException e) {
-      /* We should probably have our exception defined... will leave it here until we define it. */
+      /* TODO: We should probably have our exception defined... will leave it here until we define it. */
       throw new RuntimeException("Error while retrieving response body: ", e);
     }
   }
