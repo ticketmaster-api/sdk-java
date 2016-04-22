@@ -63,11 +63,12 @@ public class AsciiArtTableExample {
     // 5. And we'll print that piece of art in the console
     System.out.println(table.toString());
   }
-  
-  
+
+
 
   /**
-   * Note: The following methods are used to get a String representation of the different POJO (while handling null value) 
+   * Note: The following methods are used to get a String representation of the different POJO
+   * (while handling null value)
    */
   private static String getEventDate(DiscoveryDate dates) {
     return Optional.ofNullable(dates).map(DiscoveryDate::getStart).map(Start::getDateTime)
@@ -76,15 +77,18 @@ public class AsciiArtTableExample {
 
   private static String getAttractions(List<Attraction> attractions) {
     if (attractions != null) {
-      return Joiner.on(" / ").useForNull("N/A").join(attractions.stream().map(Attraction::getName).collect(Collectors.toList()));
+      return Joiner.on(" / ").useForNull("N/A")
+          .join(attractions.stream().map(Attraction::getName).collect(Collectors.toList()));
     }
     return "N/A";
   }
 
   private static String getClassification(List<Classification> classifications) {
-    return Optional.ofNullable(classifications).map(cls -> cls.get(0))
-        .map(c -> {
-          return Joiner.on(" / ").join(c.getSegment().getName(), c.getGenre().getName(), c.getSubGenre().getName());
-        }).orElse("No classification");
+    return Optional
+        .ofNullable(classifications)
+        .map(cls -> cls.get(0))
+        .map(
+            c -> Joiner.on(" / ").join(c.getSegment().getName(), c.getGenre().getName(),
+                c.getSubGenre().getName())).orElse("No classification");
   }
 }

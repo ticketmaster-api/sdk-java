@@ -14,5 +14,5 @@ public class AsciiArtRow {
   public List<String> getCells() {
     return cells;
   }
-  
+
 }

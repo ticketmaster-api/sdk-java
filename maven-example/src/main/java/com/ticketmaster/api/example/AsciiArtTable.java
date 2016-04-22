@@ -15,7 +15,7 @@ public class AsciiArtTable {
   private AsciiArtRow header = null;
   private List<AsciiArtRow> rows = new ArrayList<>();
   private Map<Integer, Integer> columnsLength = new HashMap<>();
-  
+
   public AsciiArtTable(String... headers) {
     header = new AsciiArtRow();
     Arrays.asList(headers).stream().forEach(h -> {
@@ -52,7 +52,7 @@ public class AsciiArtTable {
   private List<String> getCellsWithPadding(AsciiArtRow r) {
     List<String> padded = new ArrayList<>();
     IntStream.range(0, r.getCells().size()).forEach(i -> {
-      padded.add(String.format("%-"+ (columnsLength.get(i) + 2) + "s", r.getCells().get(i)));
+      padded.add(String.format("%-" + (columnsLength.get(i) + 2) + "s", r.getCells().get(i)));
     });
     return padded;
   }
