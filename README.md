@@ -26,6 +26,10 @@ Response<Event> response = ... ;
 RateLimit rateLimit = response.getRateLimit();
 ```
 
+### Code example
+
+An example on how to integrate the SDK with Maven is provided, please check [this folder](maven-example/)
+
 ## Android compatibility
  
 Although the compatibility with Android is not fully tested yet, we choose to use Java 7 and compatible dependencies.     
@@ -33,4 +37,4 @@ Feel free to open issues and pull requests regarding that.
 
 ## Contributing
 
-Please check out [this page](../blob/master/CONTRIBUTING.md)
+Please check out [this page](CONTRIBUTING.md)
