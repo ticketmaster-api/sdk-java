@@ -5,14 +5,14 @@ import java.util.List;
 
 public class AsciiArtRow {
 
-  private List<String> fields = new ArrayList<String>();
+  private List<String> cells = new ArrayList<String>();
 
-  public void addField(String value) {
-    this.fields.add(value);
+  public void addCell(String value) {
+    this.cells.add(value);
   }
 
-  public List<String> getFields() {
-    return fields;
+  public List<String> getCells() {
+    return cells;
   }
   
 }

@@ -3,16 +3,19 @@ package com.ticketmaster.api.example;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.google.common.base.Joiner;
 import com.ticketmaster.api.discovery.DiscoveryApi;
 import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Classification;
 import com.ticketmaster.discovery.model.DiscoveryDate;
+import com.ticketmaster.discovery.model.DiscoveryDate.Start;
 import com.ticketmaster.discovery.model.Events;
 
-public class App {
+public class AsciiArtTableExample {
   private static final String LAT = "34.0522";
   private static final String LONG = "-118.2437";
 
@@ -49,10 +52,10 @@ public class App {
     response.getContent().getEvents().stream().forEach(event -> {
       AsciiArtRow row = new AsciiArtRow();
 
-      row.addField(event.getName());
-      row.addField(getEventDate(event.getDates()));
-      row.addField(getClassification(event.getClassifications()));
-      row.addField(getAttractions(event.getAttractions()));
+      row.addCell(event.getName());
+      row.addCell(getEventDate(event.getDates()));
+      row.addCell(getClassification(event.getClassifications()));
+      row.addCell(getAttractions(event.getAttractions()));
 
       table.addRow(row);
     });
@@ -60,31 +63,28 @@ public class App {
     // 5. And we'll print that piece of art in the console
     System.out.println(table.toString());
   }
+  
+  
 
+  /**
+   * Note: The following methods are used to get a String representation of the different POJO (while handling null value) 
+   */
   private static String getEventDate(DiscoveryDate dates) {
-    if (dates != null && dates.getStart() != null && dates.getStart().getDateTime() != null) {
-      return dates.getStart().getDateTime().toString();
-    } else {
-      return "No date";
-    }
+    return Optional.ofNullable(dates).map(DiscoveryDate::getStart).map(Start::getDateTime)
+        .map(dt -> dt.toString()).orElse("No date");
   }
 
   private static String getAttractions(List<Attraction> attractions) {
-    return Optional.ofNullable(attractions).map(attrs -> {
-      StringBuilder sb = new StringBuilder();
-      String separator = "";
-      for (Attraction attr : attrs) {
-        sb.append(separator).append(attr.getName());
-
-        separator = ", ";
-      }
-      return sb.toString();
-    }).orElse("N/A");
+    if (attractions != null) {
+      return Joiner.on(" / ").useForNull("N/A").join(attractions.stream().map(Attraction::getName).collect(Collectors.toList()));
+    }
+    return "N/A";
   }
 
   private static String getClassification(List<Classification> classifications) {
-    return Optional.ofNullable(classifications).map(cls -> cls.get(0)).map(c -> {
-      return c.getSegment().toString();
-    }).orElse("No classification");
+    return Optional.ofNullable(classifications).map(cls -> cls.get(0))
+        .map(c -> {
+          return Joiner.on(" / ").join(c.getSegment().getName(), c.getGenre().getName(), c.getSubGenre().getName());
+        }).orElse("No classification");
   }
 }
