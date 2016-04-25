@@ -64,8 +64,49 @@ public class SearchEventsOperation extends PagedOperation<SearchEventsOperation>
     return withParam("marketId", marketId);
   }
 
+  public SearchEventsOperation marketIds(Integer... marketIds) {
+    return withCommaSeparatedParam("marketId", marketIds);
+  }
+
+  public SearchEventsOperation endDateTime(String endDateTime) {
+    return withParam("endDateTime", endDateTime);
+  }
+
+  public SearchEventsOperation startDateTime(String startDateTime) {
+    return withParam("startDateTime", startDateTime);
+  }
+
+  public SearchEventsOperation city( String city) {
+    return withParam("city", city);
+  }
+
+  public SearchEventsOperation countryCode( String countryCode) { return withParam("countryCode", countryCode); }
+
+  public SearchEventsOperation countryCode( String... countryCodes) { return withCommaSeparatedParam("countryCode", countryCodes); }
+
+  public SearchEventsOperation stateCode( String stateCode) {
+    return withParam("stateCode", stateCode);
+  }
+
+  public SearchEventsOperation stateCode( String... stateCodes) { return withCommaSeparatedParam("stateCode", stateCodes); }
+
+  public SearchEventsOperation dmaId( String dmaId) { return withParam("dmaId", dmaId); }
+
+  public SearchEventsOperation dmaId( String... dmaIds) { return withCommaSeparatedParam("dmaIds", dmaIds); }
+
+  public SearchEventsOperation includeTBA( String includeTBA) { return withParam("includeTBA", includeTBA); }
+
+  public SearchEventsOperation includeTBD( String includeTBD) { return withParam("includeTBD", includeTBD); }
+
+  public SearchEventsOperation sort( String sort) { return withParam("sort", sort); }
+
+  public SearchEventsOperation onsaleEndDateTime( String onsaleEndDateTime) { return withParam("onsaleEndDateTime", onsaleEndDateTime); }
+
+  public SearchEventsOperation onsaleStartDateTime( String onsaleStartDateTime) { return withParam("onsaleStartDateTime", onsaleStartDateTime); }
+
   @Override
   protected SearchEventsOperation getThis() {
     return this;
   }
+
 }
