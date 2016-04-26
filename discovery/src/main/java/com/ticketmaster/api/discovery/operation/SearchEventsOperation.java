@@ -60,11 +60,11 @@ public class SearchEventsOperation extends PagedOperation<SearchEventsOperation>
     return withParam("unit", unit);
   }
 
-  public SearchEventsOperation marketId(Integer marketId) {
+  public SearchEventsOperation marketId(String marketId) {
     return withParam("marketId", marketId);
   }
 
-  public SearchEventsOperation marketIds(Integer... marketIds) {
+  public SearchEventsOperation marketIds(String... marketIds) {
     return withCommaSeparatedParam("marketId", marketIds);
   }
 
