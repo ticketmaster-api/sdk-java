@@ -26,6 +26,7 @@ public class Venue extends ResourceSupport {
   private String id;
   private String name;
   private String locale;
+  private String url;
   private List<Market> markets;
   private Country country;
   private State state;

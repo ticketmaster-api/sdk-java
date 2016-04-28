@@ -23,7 +23,7 @@ public class Event extends ResourceSupport {
   private String id;
   private String name;
   private String locale;
-  private String eventUrl;
+  private String url;
   private Promoter promoter;
   private List<Image> images;
   private List<Classification> classifications;
