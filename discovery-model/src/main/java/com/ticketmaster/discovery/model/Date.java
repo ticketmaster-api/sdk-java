@@ -11,7 +11,7 @@ import lombok.ToString;
 
 import org.joda.time.DateTime;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -26,7 +26,7 @@ public class Date extends BaseModel {
   private Status status;
   private AccessDates access;
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -44,7 +44,7 @@ public class Date extends BaseModel {
     private Boolean noSpecificTime;
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -60,7 +60,7 @@ public class Date extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -73,7 +73,7 @@ public class Date extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -87,7 +87,7 @@ public class Date extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -100,7 +100,7 @@ public class Date extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)

@@ -14,7 +14,7 @@ import lombok.ToString;
 import java.util.List;
 
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +38,7 @@ public class Venue extends ResourceSupport {
   private String timezone;
   private Boolean test;
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -53,7 +53,7 @@ public class Venue extends ResourceSupport {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -67,7 +67,7 @@ public class Venue extends ResourceSupport {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -81,7 +81,7 @@ public class Venue extends ResourceSupport {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -94,7 +94,7 @@ public class Venue extends ResourceSupport {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)

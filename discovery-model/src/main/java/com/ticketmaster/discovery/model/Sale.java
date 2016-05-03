@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -24,7 +24,7 @@ public class Sale extends BaseModel {
   private Public publicSale;
 
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)

@@ -9,7 +9,7 @@ import lombok.ToString;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -23,7 +23,7 @@ public class Classification extends BaseModel {
   private Genre genre;
   private SubGenre subGenre;
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -37,7 +37,7 @@ public class Classification extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)
@@ -51,7 +51,7 @@ public class Classification extends BaseModel {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
   @EqualsAndHashCode(callSuper = true)

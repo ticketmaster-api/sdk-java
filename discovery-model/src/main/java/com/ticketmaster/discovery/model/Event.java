@@ -11,7 +11,7 @@ import lombok.ToString;
 
 import java.util.List;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
