@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class DiscoverySales extends BaseModel {
+public class Sale extends BaseModel {
 
   @JsonProperty("public")
   private Public publicSale;

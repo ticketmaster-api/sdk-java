@@ -28,9 +28,9 @@ public class Event extends ResourceSupport {
   private Promoter promoter;
   private List<Image> images;
   private List<Classification> classifications;
-  private DiscoveryDate dates;
+  private Date dates;
   private Boolean test;
-  private DiscoverySales sales;
+  private Sale sales;
   private String groupId;
   private String info;
   private String pleaseNote;

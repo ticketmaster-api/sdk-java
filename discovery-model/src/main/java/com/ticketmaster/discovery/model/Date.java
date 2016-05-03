@@ -17,7 +17,7 @@ import org.joda.time.DateTime;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class DiscoveryDate extends BaseModel {
+public class Date extends BaseModel {
 
   private Start start;
   private End end;
