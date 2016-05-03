@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public abstract class ResourceSupport {
+public abstract class ResourceSupport extends BaseModel {
 
   @Getter(AccessLevel.PRIVATE)
   @Setter(AccessLevel.PRIVATE)

@@ -1,6 +1,5 @@
 package com.ticketmaster.discovery.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,56 +7,58 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@ToString(callSuper = true)
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Classification {
+public class Classification extends BaseModel {
 
   private Boolean primary;
   private Segment segment;
   private Genre genre;
   private SubGenre subGenre;
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Segment {
+  public static class Segment extends BaseModel {
 
     private String id;
     private String name;
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Genre {
+  public static class Genre extends BaseModel {
 
     private String id;
     private String name;
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class SubGenre {
+  public static class SubGenre extends BaseModel {
 
     private String id;
     private String name;

@@ -11,7 +11,7 @@ import lombok.ToString;
 
 import java.util.List;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -22,15 +22,18 @@ public class Event extends ResourceSupport {
 
   private String id;
   private String name;
+  private String description;
   private String locale;
   private String url;
   private Promoter promoter;
   private List<Image> images;
   private List<Classification> classifications;
-  private DiscoveryDate dates;
+  private Date dates;
   private Boolean test;
-  private DiscoverySales sales;
+  private Sale sales;
   private String groupId;
+  private String info;
+  private String pleaseNote;
 
   public List<Venue> getVenues() {
     return embedded != null ? embedded.getVenues() : null;

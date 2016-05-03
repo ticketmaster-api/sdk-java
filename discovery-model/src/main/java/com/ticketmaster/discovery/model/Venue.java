@@ -14,7 +14,7 @@ import lombok.ToString;
 import java.util.List;
 
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -28,6 +28,7 @@ public class Venue extends ResourceSupport {
   private String locale;
   private String url;
   private List<Market> markets;
+  private List<DMA> dmas;
   private Country country;
   private State state;
   private City city;
@@ -37,14 +38,14 @@ public class Venue extends ResourceSupport {
   private String timezone;
   private Boolean test;
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Location {
+  public static class Location extends BaseModel {
 
     private String latitude;
 
@@ -52,55 +53,55 @@ public class Venue extends ResourceSupport {
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Country {
+  public static class Country extends BaseModel {
 
     private String name;
     private String countryCode;
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class State {
+  public static class State extends BaseModel {
 
     private String name;
     private String stateCode;
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class City {
+  public static class City extends BaseModel {
 
     private String name;
 
   }
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Address {
+  public static class Address extends BaseModel {
 
     private String line1;
 

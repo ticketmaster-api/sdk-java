@@ -1,5 +1,5 @@
 plugins {
-    id "com.jfrog.bintray" version "1.6"
+  id "com.jfrog.bintray" version "1.6"
 }
 
 dependencies {
@@ -10,6 +10,8 @@ dependencies {
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:2.4.1'
+  testCompile 'org.reflections:reflections:0.9.10'
+  testCompile 'com.google.guava:guava:19.0'
 }
   
 apply from: '../gradle/publishing.gradle'

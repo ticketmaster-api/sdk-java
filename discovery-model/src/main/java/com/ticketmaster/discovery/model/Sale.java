@@ -12,26 +12,26 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class DiscoverySales {
+public class Sale extends BaseModel {
 
   @JsonProperty("public")
   private Public publicSale;
 
 
-  @ToString
+  @ToString(callSuper = true)
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Public {
+  public static class Public extends BaseModel {
 
     private DateTime startDateTime;
     private DateTime endDateTime;

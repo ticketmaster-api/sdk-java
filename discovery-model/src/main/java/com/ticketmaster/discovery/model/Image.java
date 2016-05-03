@@ -1,19 +1,20 @@
 package com.ticketmaster.discovery.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Image {
+public class Image extends BaseModel {
 
   private String url;
   private String ratio;
