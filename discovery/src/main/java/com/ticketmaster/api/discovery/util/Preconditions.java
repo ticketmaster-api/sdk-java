@@ -1,6 +1,5 @@
 package com.ticketmaster.api.discovery.util;
 
-import java.util.regex.Pattern;
 
 public class Preconditions {
 

@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class DiscoverySales {
+public class DiscoverySales extends BaseModel {
 
   @JsonProperty("public")
   private Public publicSale;
@@ -27,11 +27,11 @@ public class DiscoverySales {
   @ToString
   @Getter
   @Setter
-  @EqualsAndHashCode
+  @EqualsAndHashCode(callSuper = true)
   @NoArgsConstructor
   @AllArgsConstructor
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  public static class Public {
+  public static class Public extends BaseModel {
 
     private DateTime startDateTime;
     private DateTime endDateTime;

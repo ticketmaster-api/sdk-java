@@ -22,6 +22,7 @@ public class Event extends ResourceSupport {
 
   private String id;
   private String name;
+  private String description;
   private String locale;
   private String url;
   private Promoter promoter;
@@ -31,6 +32,8 @@ public class Event extends ResourceSupport {
   private Boolean test;
   private DiscoverySales sales;
   private String groupId;
+  private String info;
+  private String pleaseNote;
 
   public List<Venue> getVenues() {
     return embedded != null ? embedded.getVenues() : null;
