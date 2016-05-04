@@ -2,10 +2,10 @@ package com.ticketmaster.api;
 
 public class Version {
 
-  public static final String SDK_VERSION = "0.0.1";
+  public static final String SDK_VERSION = "0.1.0";
 
   public static final String getUserAgent() {
-    return "Ticketmaster Java SDK/" + SDK_VERSION;
+    return "Ticketmaster Discovery Java SDK/" + SDK_VERSION;
   }
 
   private Version() {

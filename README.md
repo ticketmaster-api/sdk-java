@@ -9,14 +9,14 @@ http://developer.ticketmaster.com/
 <dependency>
   <groupId>com.ticketmaster.api</groupId>
   <artifactId>discovery-java</artifactId>
-  <version>0.0.1-beta</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
 ## Gradle
 
 ```
-compile 'com.ticketmaster.api:discovery-java:0.0.1-beta'
+compile 'com.ticketmaster.api:discovery-java:0.1.0'
 ```
 
 ## Usage

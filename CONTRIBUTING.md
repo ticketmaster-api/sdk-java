@@ -24,6 +24,7 @@ export BINTRAY_KEY="<secret>"
 * Adjust the VERSION variable in the following files:
 	* `discovery/gradle.properties`
 	* `discovery-model/gradle.properties` 
+	* `discovery/src/main/java/com/ticketmaster/api/Version.java` 
 * Run: 
 ```
 ./gradlew clean install bintrayUpload -i
