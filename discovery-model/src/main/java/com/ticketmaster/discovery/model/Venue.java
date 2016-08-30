@@ -1,6 +1,10 @@
 package com.ticketmaster.discovery.model;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -10,8 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 
 @ToString(callSuper = true)
@@ -37,6 +39,8 @@ public class Venue extends ResourceSupport {
   private Address address;
   private String timezone;
   private Boolean test;
+  private Source source;
+  private Map<String, Extension> extensions = new HashMap<>();
 
   @ToString(callSuper = true)
   @Getter
@@ -108,4 +112,5 @@ public class Venue extends ResourceSupport {
     private String line2;
 
   }
+
 }
