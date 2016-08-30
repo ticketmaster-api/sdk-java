@@ -11,8 +11,8 @@ import com.ticketmaster.api.discovery.operation.SearchEventsOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.discovery.model.Attraction;
 import com.ticketmaster.discovery.model.Classification;
-import com.ticketmaster.discovery.model.DiscoveryDate;
-import com.ticketmaster.discovery.model.DiscoveryDate.Start;
+import com.ticketmaster.discovery.model.Date;
+import com.ticketmaster.discovery.model.Date.Start;
 import com.ticketmaster.discovery.model.Events;
 
 public class AsciiArtTableExample {
@@ -70,8 +70,8 @@ public class AsciiArtTableExample {
    * Note: The following methods are used to get a String representation of the different POJO
    * (while handling null value)
    */
-  private static String getEventDate(DiscoveryDate dates) {
-    return Optional.ofNullable(dates).map(DiscoveryDate::getStart).map(Start::getDateTime)
+  private static String getEventDate(Date dates) {
+    return Optional.ofNullable(dates).map(Date::getStart).map(Start::getDateTime)
         .map(dt -> dt.toString()).orElse("No date");
   }
 
