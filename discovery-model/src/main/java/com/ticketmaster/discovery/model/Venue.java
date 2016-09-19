@@ -2,11 +2,10 @@ package com.ticketmaster.discovery.model;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -14,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 @ToString(callSuper = true)
@@ -40,7 +42,13 @@ public class Venue extends ResourceSupport {
   private String timezone;
   private Boolean test;
   private Source source;
+  private String accessibleSeatingDetail;
+  private String parkingDetail;
+  private BoxOfficeInfo boxOfficeInfo;
+  private GeneralInfo generalInfo;
+  private Social social;
   private Map<String, Extension> extensions = new HashMap<>();
+  private Set<Relationship> relationships = new HashSet<>();
 
   @ToString(callSuper = true)
   @Getter
@@ -110,6 +118,42 @@ public class Venue extends ResourceSupport {
     private String line1;
 
     private String line2;
+
+  }
+
+  @ToString(callSuper = true)
+  @Getter
+  @Setter
+  @EqualsAndHashCode(callSuper = true)
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class BoxOfficeInfo extends BaseModel {
+
+    private String acceptedPaymentDetail;
+
+    private String phoneNumberDetail;
+
+    private String willCallDetail;
+
+    private String openHoursDetail;
+    
+  }
+
+  @ToString(callSuper = true)
+  @Getter
+  @Setter
+  @EqualsAndHashCode(callSuper = true)
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  public static class GeneralInfo extends BaseModel {
+
+    private String childRule;
+
+    private String generalRule;
+
+    private String willCallDetail;
 
   }
 
