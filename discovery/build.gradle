@@ -10,7 +10,7 @@ dependencies {
   compile 'joda-time:joda-time:2.9.2'
   compile 'org.slf4j:slf4j-api:1.7.16'
   
-  compile 'org.projectlombok:lombok:1.16.6'
+  provided 'org.projectlombok:lombok:1.16.6'
   
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:2.4.1'
