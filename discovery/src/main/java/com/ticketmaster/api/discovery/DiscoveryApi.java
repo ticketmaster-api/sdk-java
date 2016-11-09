@@ -1,12 +1,5 @@
 package com.ticketmaster.api.discovery;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
@@ -18,26 +11,28 @@ import com.ticketmaster.api.discovery.operation.SearchVenuesOperation;
 import com.ticketmaster.api.discovery.response.PagedResponse;
 import com.ticketmaster.api.discovery.response.Response;
 import com.ticketmaster.api.discovery.util.Preconditions;
-import com.ticketmaster.discovery.model.Attraction;
-import com.ticketmaster.discovery.model.Attractions;
-import com.ticketmaster.discovery.model.Event;
-import com.ticketmaster.discovery.model.Events;
+import com.ticketmaster.discovery.model.*;
 import com.ticketmaster.discovery.model.Page.Link;
-import com.ticketmaster.discovery.model.Venue;
-import com.ticketmaster.discovery.model.Venues;
-
 import okhttp3.HttpUrl;
 import okhttp3.HttpUrl.Builder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 public class DiscoveryApi {
 
   private Logger logger = LoggerFactory.getLogger(DiscoveryApi.class);
 
   private static final String USER_AGENT = "User-Agent";
+  private static final String API_KEY_QUERY_PARAM = "apikey";
+  private final OkHttpClient client;
   private final DiscoveryApiConfiguration configuration;
-  private final OkHttpClient client = new OkHttpClient();
   private final ObjectMapper mapper;
   private final String apiKey;
   private final HashMap<Class<?>, String> pathByType;
@@ -53,6 +48,12 @@ public class DiscoveryApi {
     this.mapper = new ObjectMapper() //
         .registerModule(new JodaModule()) //
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    this.client = new OkHttpClient.Builder()
+                 .readTimeout(configuration.getSocketTimeout(), TimeUnit.MILLISECONDS)
+                 .connectTimeout(configuration.getSocketConnectTimeout(), TimeUnit.MILLISECONDS)
+                 .build();
+
     this.pathByType = new HashMap<>();
     this.pathByType.put(Event.class, "events");
     this.pathByType.put(Attraction.class, "attractions");
@@ -74,7 +75,7 @@ public class DiscoveryApi {
   public PagedResponse<Events> searchEvents(SearchEventsOperation operation) throws IOException {
     logger.debug("searchEvents invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Event.class));
+    Builder builder = urlBuilder(pathByType.get(Event.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -90,7 +91,7 @@ public class DiscoveryApi {
       throws IOException {
     logger.debug("searchAttractions invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Attraction.class));
+    Builder builder = urlBuilder(pathByType.get(Attraction.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -105,7 +106,7 @@ public class DiscoveryApi {
   public PagedResponse<Venues> searchVenues(SearchVenuesOperation operation) throws IOException {
     logger.debug("searchVenues invoked with {}", operation);
 
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(Venue.class));
+    Builder builder = urlBuilder(pathByType.get(Venue.class));
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
       builder.addQueryParameter(e.getKey(), e.getValue());
     }
@@ -134,8 +135,8 @@ public class DiscoveryApi {
     return navigateTo(response.getPreviousPageLink(), response.getType());
   }
 
-  private HttpUrl.Builder baseUrlBuilder() {
-    Builder builder = new HttpUrl.Builder();
+  private Builder baseUrlBuilder() {
+    Builder builder = new Builder();
     builder.scheme(configuration.getProtocol());
     builder.host(configuration.getDomainName());
     if (configuration.isPortSet()) {
@@ -144,14 +145,21 @@ public class DiscoveryApi {
     return builder;
   }
 
-  private HttpUrl.Builder urlBuilder(String path) {
-    return baseUrlBuilder().addPathSegment(configuration.getApiPackage())
-        .addPathSegment(configuration.getApiVersion()).addPathSegment(path);
+  private Builder urlBuilder(String path) {
+    Builder builder =
+        baseUrlBuilder().addPathSegment(configuration.getApiPackage())
+            .addPathSegment(configuration.getApiVersion()).addPathSegment(path);
+
+    if (configuration.getPathModifier() != DiscoveryApiConfiguration.PathModifier.NONE) {
+      builder.addPathSegment(configuration.getPathModifier().getModifier());
+    }
+
+    return builder;
   }
 
   private <T> Response<T> getById(ByIdOperation operation, Class<T> clazz) throws IOException {
     logger.debug("get{} invoked with {}", clazz.getSimpleName(), operation);
-    HttpUrl.Builder builder = urlBuilder(pathByType.get(clazz));
+    Builder builder = urlBuilder(pathByType.get(clazz));
 
     builder.addPathSegment(operation.getId());
     for (Entry<String, String> e : operation.getQueryParameters().entrySet()) {
@@ -177,7 +185,7 @@ public class DiscoveryApi {
 
 
   private Request getRequest(HttpUrl url) {
-    HttpUrl.Builder urlBuilder = url.newBuilder().addQueryParameter("apikey", apiKey);
+    Builder urlBuilder = url.newBuilder().addQueryParameter(API_KEY_QUERY_PARAM, apiKey);
     if (configuration.getDefaultLocale() != null && url.queryParameter("locale") == null) {
       urlBuilder.addQueryParameter("locale", configuration.getDefaultLocale());
     }
