@@ -1,18 +1,44 @@
 package com.ticketmaster.api.discovery;
 
-import static com.ticketmaster.api.discovery.util.Preconditions.checkArgument;
-import static com.ticketmaster.api.discovery.util.Preconditions.checkIllegalCharacters;
-import static com.ticketmaster.api.discovery.util.Preconditions.checkNotEmpty;
-import static com.ticketmaster.api.discovery.util.Preconditions.checkNotNull;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import static com.ticketmaster.api.discovery.util.Preconditions.*;
 
 @Getter
 @ToString
 @EqualsAndHashCode
 public class DiscoveryApiConfiguration {
+
+  private int DEFAULT_SOCKET_CONNECT_TIMEOUT_MS = 500;
+  private int DEFAULT_SOCKET_TIMEOUT_MS = 6000;
+
+  public enum PathModifier {
+    LEGACY("legacy"),
+    NONE("");
+
+    private String modifier;
+
+    PathModifier(String pathModifier) {
+      this.modifier = pathModifier;
+    }
+
+    public String getModifier() {
+      return modifier;
+    }
+
+    public static PathModifier fromString(String value) {
+      PathModifier pathModifier = null;
+
+      if (value != null) {
+        pathModifier = PathModifier.valueOf(value.toUpperCase());
+      }
+
+      return pathModifier;
+    }
+
+  }
 
   private String protocol = "https";
   private String domainName = "app.ticketmaster.com";
@@ -20,6 +46,9 @@ public class DiscoveryApiConfiguration {
   private String apiPackage = "discovery";
   private String apiVersion = "v2";
   private String defaultLocale = null;
+  private PathModifier pathModifier = PathModifier.NONE;
+  private int socketConnectTimeout = DEFAULT_SOCKET_CONNECT_TIMEOUT_MS;
+  private int socketTimeout = DEFAULT_SOCKET_TIMEOUT_MS;
 
   public static DiscoveryApiConfigurationBuilder builder() {
     return new DiscoveryApiConfiguration().new DiscoveryApiConfigurationBuilder();
@@ -61,6 +90,22 @@ public class DiscoveryApiConfiguration {
       checkNotNull(locale);
       // TODO: Validate the locale is allowed
       defaultLocale = locale;
+      return this;
+    }
+
+    public DiscoveryApiConfigurationBuilder pathModifier(String newPathModifier) {
+      checkNotNull(newPathModifier);
+      pathModifier = PathModifier.fromString(newPathModifier);
+      return this;
+    }
+
+    public DiscoveryApiConfigurationBuilder socketConnectTimeout(int timeout) {
+      socketConnectTimeout = timeout;
+      return this;
+    }
+
+    public DiscoveryApiConfigurationBuilder socketTimeout(int timeout) {
+      socketTimeout = timeout;
       return this;
     }
 
