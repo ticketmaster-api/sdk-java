@@ -5,7 +5,7 @@ http://developer.ticketmaster.com/
 
 ## Maven
 
-```
+```xml
 <dependency>
   <groupId>com.ticketmaster.api</groupId>
   <artifactId>discovery-java</artifactId>
