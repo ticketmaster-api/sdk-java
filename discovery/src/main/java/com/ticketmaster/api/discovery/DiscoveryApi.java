@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -145,7 +146,8 @@ public class DiscoveryApi {
     return builder;
   }
 
-  private Builder urlBuilder(String path) {
+  // Package protected for testing purposess
+  Builder urlBuilder(String path) {
     Builder builder =
         baseUrlBuilder().addPathSegment(configuration.getApiPackage())
             .addPathSegment(configuration.getApiVersion()).addPathSegment(path);

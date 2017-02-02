@@ -12,6 +12,7 @@ buildscript {
     }
 }
 subprojects {
+  apply plugin: 'idea'
   apply plugin: 'java'
   apply plugin: 'nebula.optional-base'
   apply plugin: 'nebula.provided-base'

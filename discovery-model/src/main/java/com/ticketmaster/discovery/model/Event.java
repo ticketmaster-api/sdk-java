@@ -38,6 +38,7 @@ public class Event extends ResourceSupport {
   private String pleaseNote;
   private Place place;
   private Set<PriceRange> priceRanges;
+  private Source source;
 
   public List<Venue> getVenues() {
     return embedded != null ? embedded.getVenues() : null;
