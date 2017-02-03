@@ -49,6 +49,7 @@ public class Venue extends ResourceSupport {
   private Social social;
   private Map<String, Extension> extensions = new HashMap<>();
   private Set<Relationship> relationships = new HashSet<>();
+  private List<Image> images;
 
   @ToString(callSuper = true)
   @Getter

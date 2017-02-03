@@ -1,9 +1,10 @@
 package com.ticketmaster.api.discovery;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
+import okhttp3.HttpUrl;
 import org.junit.Test;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
@@ -20,6 +21,9 @@ import com.ticketmaster.discovery.model.Event;
 import com.ticketmaster.discovery.model.Events;
 import com.ticketmaster.discovery.model.Venue;
 import com.ticketmaster.discovery.model.Venues;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class DiscoveryApiITest {
@@ -66,9 +70,35 @@ public class DiscoveryApiITest {
     }
   }
 
+  @Test
+  public void testPathModifierLocalized() throws Exception {
+    DiscoveryApiConfiguration configuration = DiscoveryApiConfiguration.builder()
+            .pathModifier(DiscoveryApiConfiguration.PathModifier.TICKETMASTER_UK)
+            .build();
+
+    DiscoveryApi api = new DiscoveryApi("aKey",configuration);
+
+    HttpUrl url = api.urlBuilder("event").build();
+
+    assertThat(url.encodedPath(),is("/discovery/v2/event/ticketmaster-uk"));
+  }
+
+  @Test
+  public void testPathModifierNotLocalized() throws Exception {
+    DiscoveryApiConfiguration configuration = DiscoveryApiConfiguration.builder()
+            .pathModifier(DiscoveryApiConfiguration.PathModifier.NONE)
+            .build();
+
+    DiscoveryApi api = new DiscoveryApi("aKey",configuration);
+
+    HttpUrl url = api.urlBuilder("event").build();
+
+    assertThat(url.encodedPath(),is("/discovery/v2/event"));
+  }
+
   private void validateEmptyOtherProperties(final Object object) {
     if (object != null && BaseModel.class.isAssignableFrom(object.getClass())) {
-      Assertions.assertThat(getOtherProperties(object)).isEmpty();
+      assertThat(getOtherProperties(object).isEmpty(),is(true));
       recursiveValidate(object);
     }
     return;

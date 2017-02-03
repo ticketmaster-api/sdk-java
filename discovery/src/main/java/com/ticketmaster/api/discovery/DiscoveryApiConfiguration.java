@@ -4,6 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Locale;
+
 import static com.ticketmaster.api.discovery.util.Preconditions.*;
 
 @Getter
@@ -16,6 +18,11 @@ public class DiscoveryApiConfiguration {
 
   public enum PathModifier {
     LEGACY("legacy"),
+    TICKETMASTER_US("ticketmaster-us"),
+    TICKETMASTER_UK("ticketmaster-uk"),
+    UNIVERSE("universe"),
+    FRONTGATE("frontgate"),
+    TMR("tmr"),
     NONE("");
 
     private String modifier;
@@ -95,7 +102,11 @@ public class DiscoveryApiConfiguration {
 
     public DiscoveryApiConfigurationBuilder pathModifier(String newPathModifier) {
       checkNotNull(newPathModifier);
-      pathModifier = PathModifier.fromString(newPathModifier);
+      return pathModifier( PathModifier.fromString(newPathModifier) );
+    }
+
+    public DiscoveryApiConfigurationBuilder pathModifier(PathModifier newPathModifier) {
+      pathModifier = newPathModifier == null ? PathModifier.NONE : newPathModifier;
       return this;
     }
 
