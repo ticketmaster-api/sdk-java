@@ -7,11 +7,10 @@ dependencies {
   compile 'com.fasterxml.jackson.core:jackson-core:2.7.0'
   compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
   compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.7.0'
-  compile 'joda-time:joda-time:2.9.2'
   compile 'org.slf4j:slf4j-api:1.7.16'
-  
+
   provided 'org.projectlombok:lombok:1.16.6'
-  
+
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:2.4.1'
   testCompile 'org.slf4j:slf4j-log4j12:1.7.16'
@@ -26,5 +25,5 @@ test {
 task integrationTest(type: Test) {
   include "**/*ITest*"
 }
- 
+
 apply from: '../gradle/publishing.gradle'

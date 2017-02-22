@@ -16,10 +16,10 @@ subprojects {
   apply plugin: 'java'
   apply plugin: 'nebula.optional-base'
   apply plugin: 'nebula.provided-base'
-  
+
   targetCompatibility = "1.7"
   sourceCompatibility = "1.7"
-  
+
   repositories {
       mavenCentral()
       jcenter()
@@ -29,12 +29,12 @@ subprojects {
       classifier = 'javadoc'
       from 'build/docs/javadoc'
   }
-  
+
   task sourcesJar(type: Jar) {
       from sourceSets.main.allSource
       classifier = 'sources'
   }
-  
+
   artifacts {
       archives jar
       archives javadocJar
@@ -49,7 +49,7 @@ project(':discovery-java') {
     }
 }
 
-// Adding a Help task to debug the artifacts 
+// Adding a Help task to debug the artifacts
 task artifacts {
   group = "Help"
   description = "Displays the artifacts associated with each configuration of " + project

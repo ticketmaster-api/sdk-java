@@ -2,14 +2,14 @@ package com.ticketmaster.discovery.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import org.joda.time.DateTime;
 
 @ToString(callSuper = true)
 @Getter
@@ -35,7 +35,7 @@ public class Date extends BaseModel {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public static class Start extends BaseModel {
 
-    private DateTime dateTime;
+    private ZonedDateTime dateTime;
     private String localDate;
     private String localTime;
     private Boolean dateTBD;
@@ -53,7 +53,7 @@ public class Date extends BaseModel {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public static class End extends BaseModel {
 
-    private DateTime dateTime;
+    private ZonedDateTime dateTime;
     private String localDate;
     private String localTime;
     private Boolean approximate;
@@ -109,9 +109,9 @@ public class Date extends BaseModel {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public final static class AccessDates extends BaseModel {
 
-    private DateTime startDateTime;
+    private ZonedDateTime startDateTime;
     private Boolean startApproximate;
-    private DateTime endDateTime;
+    private ZonedDateTime endDateTime;
     private Boolean endApproximate;
 
   }
