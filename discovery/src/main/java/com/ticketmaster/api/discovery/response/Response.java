@@ -46,4 +46,8 @@ public class Response<T> {
       throw new RuntimeException("Error while retrieving response body: ", e);
     }
   }
+
+  public int getHttpStatusCode(){
+    return httpResponse.code();
+  }
 }
