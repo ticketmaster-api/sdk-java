@@ -3,8 +3,6 @@ package com.ticketmaster.api.discovery;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assert;
-import org.assertj.core.api.Assertions;
 
 public class DiscoveryApiConfigurationAssert
     extends AbstractAssert<DiscoveryApiConfigurationAssert, DiscoveryApiConfiguration> {
@@ -49,6 +47,12 @@ public class DiscoveryApiConfigurationAssert
   public DiscoveryApiConfigurationAssert doesNotHavePort() {
     isNotNull();
     assertThat(actual.isPortSet()).as("Port").isFalse();
+    return this;
+  }
+
+  public DiscoveryApiConfigurationAssert apiKeyQueryParamEquals(String apiKeyQueryParam){
+    isNotNull();
+    assertThat(actual.getApiKeyQueryParam()).isEqualTo(apiKeyQueryParam);
     return this;
   }
 }

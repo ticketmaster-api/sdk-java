@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +30,7 @@ public class DiscoveryApi {
   private Logger logger = LoggerFactory.getLogger(DiscoveryApi.class);
 
   private static final String USER_AGENT = "User-Agent";
-  private static final String API_KEY_QUERY_PARAM = "apikey";
+  private final String apiKeyQueryParam;
   private final OkHttpClient client;
   private final DiscoveryApiConfiguration configuration;
   private final ObjectMapper mapper;
@@ -59,6 +58,8 @@ public class DiscoveryApi {
     this.pathByType.put(Event.class, "events");
     this.pathByType.put(Attraction.class, "attractions");
     this.pathByType.put(Venue.class, "venues");
+
+    this.apiKeyQueryParam=configuration.getApiKeyQueryParam();
   }
 
   public Response<Event> getEvent(ByIdOperation operation) throws IOException {
@@ -187,7 +188,7 @@ public class DiscoveryApi {
 
 
   private Request getRequest(HttpUrl url) {
-    Builder urlBuilder = url.newBuilder().addQueryParameter(API_KEY_QUERY_PARAM, apiKey);
+    Builder urlBuilder = url.newBuilder().addQueryParameter(apiKeyQueryParam, apiKey);
     if (configuration.getDefaultLocale() != null && url.queryParameter("locale") == null) {
       urlBuilder.addQueryParameter("locale", configuration.getDefaultLocale());
     }
