@@ -1,15 +1,21 @@
 package com.ticketmaster.api.discovery;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.ticketmaster.api.discovery.DiscoveryApiConfiguration.DiscoveryApiConfigurationBuilder;
 
 public class DiscoveryApiConfigurationTest {
 
-  private DiscoveryApiConfigurationBuilder builder = DiscoveryApiConfiguration.builder();
+  private DiscoveryApiConfigurationBuilder builder;
 
   public DiscoveryApiConfigurationAssert assertThat(DiscoveryApiConfiguration actual) {
     return new DiscoveryApiConfigurationAssert(actual);
+  }
+
+  @Before
+  public void init(){
+    builder = DiscoveryApiConfiguration.builder();
   }
 
   @Test
@@ -75,6 +81,18 @@ public class DiscoveryApiConfigurationTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldRejectIfMoreThanProtocolIsGiven() {
     builder.protocol("https://localhost");
+  }
+
+  @Test
+  public void testApiKeyQueryParam(){
+    assertThat(builder.apiKeyQueryParam("apiKeyParam").build())
+            .apiKeyQueryParamEquals("apiKeyParam");
+  }
+
+  @Test
+  public void testApiKeyQueryParamDefault(){
+    assertThat(builder.build())
+            .apiKeyQueryParamEquals("apikey");
   }
 
   @Test(expected = IllegalArgumentException.class)

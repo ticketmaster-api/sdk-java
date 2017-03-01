@@ -4,8 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Locale;
-
 import static com.ticketmaster.api.discovery.util.Preconditions.*;
 
 @Getter
@@ -13,8 +11,8 @@ import static com.ticketmaster.api.discovery.util.Preconditions.*;
 @EqualsAndHashCode
 public class DiscoveryApiConfiguration {
 
-  private int DEFAULT_SOCKET_CONNECT_TIMEOUT_MS = 500;
-  private int DEFAULT_SOCKET_TIMEOUT_MS = 6000;
+  private static final int DEFAULT_SOCKET_CONNECT_TIMEOUT_MS = 500;
+  private static final int DEFAULT_SOCKET_TIMEOUT_MS = 6000;
 
   public enum PathModifier {
     LEGACY("legacy"),
@@ -56,12 +54,33 @@ public class DiscoveryApiConfiguration {
   private PathModifier pathModifier = PathModifier.NONE;
   private int socketConnectTimeout = DEFAULT_SOCKET_CONNECT_TIMEOUT_MS;
   private int socketTimeout = DEFAULT_SOCKET_TIMEOUT_MS;
+  private String apiKeyQueryParam ="apikey";
 
-  public static DiscoveryApiConfigurationBuilder builder() {
-    return new DiscoveryApiConfiguration().new DiscoveryApiConfigurationBuilder();
+  private DiscoveryApiConfiguration(String protocol,
+                                    String domainName,
+                                    Integer port,
+                                    String apiPackage,
+                                    String apiVersion,
+                                    String defaultLocale,
+                                    PathModifier pathModifier,
+                                    int socketConnectTimeout,
+                                    int socketTimeout,
+                                    String apiKeyField) {
+    this.protocol = protocol;
+    this.domainName = domainName;
+    this.port = port;
+    this.apiPackage = apiPackage;
+    this.apiVersion = apiVersion;
+    this.defaultLocale = defaultLocale;
+    this.pathModifier = pathModifier;
+    this.socketConnectTimeout = socketConnectTimeout;
+    this.socketTimeout = socketTimeout;
+    this.apiKeyQueryParam = apiKeyField;
   }
 
-  private DiscoveryApiConfiguration() {}
+  public static DiscoveryApiConfigurationBuilder builder() {
+    return new DiscoveryApiConfigurationBuilder();
+  }
 
   public int getPort() {
     return port.intValue();
@@ -71,7 +90,17 @@ public class DiscoveryApiConfiguration {
     return port != null;
   }
 
-  public class DiscoveryApiConfigurationBuilder {
+  public static class DiscoveryApiConfigurationBuilder {
+    private String protocol = "https";
+    private String domainName = "app.ticketmaster.com";
+    private Integer port = null;
+    private String apiPackage = "discovery";
+    private String apiVersion = "v2";
+    private String defaultLocale = null;
+    private PathModifier pathModifier = PathModifier.NONE;
+    private int socketConnectTimeout = DEFAULT_SOCKET_CONNECT_TIMEOUT_MS;
+    private int socketTimeout = DEFAULT_SOCKET_TIMEOUT_MS;
+    private String apiKeyQueryParam="apikey";
 
     public DiscoveryApiConfigurationBuilder host(String host) {
       checkNotEmpty(host, "host must be neither null nor empty.");
@@ -120,8 +149,23 @@ public class DiscoveryApiConfiguration {
       return this;
     }
 
+    public DiscoveryApiConfigurationBuilder apiKeyQueryParam(String field){
+      apiKeyQueryParam=field;
+      return this;
+    }
+
     public DiscoveryApiConfiguration build() {
-      return DiscoveryApiConfiguration.this;
+      return new DiscoveryApiConfiguration(
+              protocol,
+              domainName,
+              port,
+              apiPackage,
+              apiVersion,
+              defaultLocale,
+              pathModifier,
+              socketConnectTimeout,
+              socketTimeout,
+              apiKeyQueryParam);
     }
   }
 }
