@@ -51,7 +51,7 @@ public class Page<T> {
     private Boolean templated;
 
     public String getRelativeHref() {
-      if (templated) {
+      if (templated != null && templated) {
         return href.replaceAll(TEMPLATE_PATTERN, "");
       } else {
         return href;
