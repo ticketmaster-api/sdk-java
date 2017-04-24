@@ -25,6 +25,8 @@ export BINTRAY_KEY="<secret>"
 	* `discovery/gradle.properties`
 	* `discovery-model/gradle.properties` 
 	* `discovery/src/main/java/com/ticketmaster/api/Version.java` 
+	* `maven-example/pom.xml`
+	* `README.md`
 * Run: 
 ```
 ./gradlew clean install bintrayUpload -i
