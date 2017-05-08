@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
   compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
-  compile 'joda-time:joda-time:2.9.2'
 
   provided 'org.projectlombok:lombok:1.16.6'
 
@@ -13,5 +12,5 @@ dependencies {
   testCompile 'org.reflections:reflections:0.9.10'
   testCompile 'com.google.guava:guava:19.0'
 }
-  
+
 apply from: '../gradle/publishing.gradle'

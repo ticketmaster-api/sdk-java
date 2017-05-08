@@ -1,5 +1,9 @@
 package com.ticketmaster.discovery.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -8,11 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import org.joda.time.DateTime;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ToString(callSuper = true)
 @Getter
@@ -36,11 +35,11 @@ public class Sale extends BaseModel {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public static class Public extends BaseModel {
 
-    private DateTime startDateTime;
-    private DateTime endDateTime;
+    private ZonedDateTime startDateTime;
+    private ZonedDateTime endDateTime;
     private Boolean startTBD;
   }
-  
+
   @ToString(callSuper = true)
   @Getter
   @Setter
@@ -50,8 +49,8 @@ public class Sale extends BaseModel {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   public static class Presale extends BaseModel {
 
-    private DateTime startDateTime;
-    private DateTime endDateTime;
+    private ZonedDateTime startDateTime;
+    private ZonedDateTime endDateTime;
     private String name;
   }
 }
