@@ -17,17 +17,20 @@ public class Response<T> {
   protected T content;
   protected String jsonPayload;
 
-  public Response(okhttp3.Response httpResponse, ObjectMapper mapper, Class<T> type) {
+  public Response(okhttp3.Response httpResponse, ObjectMapper mapper, Class<T> type) throws IOException {
     this.rateLimit = new RateLimit(httpResponse);
     this.mapper = mapper;
     this.type = type;
     this.httpResponse = httpResponse;
+
+    // The okhttp3.ResponseBody in the httpResponse must always be closed or it is a memory leak.
+    // Call readContent() here which effectively makes sure the okhttp3.ResponseBody is closed.
+    // The OkHttp.ResponseBody.string() which is indirectly called as a result of call readContent()
+    // closes the ResponseBody. Reference, https://square.github.io/okhttp/3.x/okhttp/okhttp3/ResponseBody.html.
+    readContent();
   }
 
   public T getContent() throws IOException {
-    if (content == null) {
-      readContent();
-    }
     return content;
   }
 
