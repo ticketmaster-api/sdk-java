@@ -35,7 +35,16 @@ public class Response<T> {
   }
 
   protected void readContent() throws IOException {
-    this.content = mapper.readValue(getJsonPayload(), type);
+    try {
+      this.content = mapper.readValue(getJsonPayload(), type);
+    } catch (IOException e) {
+      // Only rethrow the exception if http request was successful and we actually expected
+      // to extract a response body of the correct 'type'. Purposefully ignoring all 2XX
+      // except 200 because even when there is a body returned, it is not complete.
+      if (httpResponse.code() == 200) {
+        throw e;
+      }
+    }
   }
 
   public String getJsonPayload() {
