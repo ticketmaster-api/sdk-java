@@ -13,7 +13,7 @@ public class PagedResponse<T> extends Response<T> {
   private final JavaType javaType;
   private Page<T> page;
 
-  public PagedResponse(okhttp3.Response httpResponse, ObjectMapper mapper, Class<T> type) throws IOException {
+  public PagedResponse(okhttp3.Response httpResponse, ObjectMapper mapper, Class<T> type) {
     super(httpResponse, mapper, type);
     this.javaType = mapper.getTypeFactory().constructParametricType(Page.class, type);
   }
