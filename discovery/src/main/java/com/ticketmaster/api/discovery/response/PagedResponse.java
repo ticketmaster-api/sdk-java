@@ -20,7 +20,7 @@ public class PagedResponse<T> extends Response<T> {
 
   protected void readContent() {
     try {
-      this.page = mapper.readValue(httpResponse.body().string(), javaType);
+      this.page = mapper.readValue(getJsonPayload(), javaType);
     } catch (IOException ioe) {
       throw new RuntimeException(ioe);
     }
